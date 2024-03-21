@@ -1,0 +1,85 @@
+// @file build.gradle
+// Engineer's decor mod gradle build.
+plugins {
+  id 'eclipse'
+  id 'maven-publish'
+  id 'net.minecraftforge.gradle' version '5.1.+'
+}
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+//-----------------------------------------------------------------------------
+version = "${version_engineersdecor}"
+group = "wile.engineersdecor"
+archivesBaseName = "engineersdecor-${version_minecraft}-forge"
+
+repositories {
+  maven { name = "Progwml6 maven"; url = "https://dvs1.progwml6.com/files/maven/" } // JEI files
+  maven { name = "ModMaven"; url = "https://modmaven.k-4u.nl" } // JEI files, fallback
+  flatDir { dir 'libs' } // Mod jar dependencies in ./libs
+}
+
+minecraft {
+  mappings channel: "official", version: "${version_minecraft}"
+  runs {
+    client {
+      workingDirectory project.file('run')
+      property 'forge.logging.markers', '' // SCAN,REGISTRIES,REGISTRYDUMP
+      property 'forge.logging.console.level', 'info'
+      mods { engineersdecor { source sourceSets.main } } }
+    server {
+      workingDirectory project.file('run')
+      property 'forge.logging.markers', '' // SCAN,REGISTRIES,REGISTRYDUMP
+      property 'forge.logging.console.level', 'info'
+      mods { engineersdecor { source sourceSets.main } }
+    }
+  }
+}
+
+dependencies {
+  minecraft "net.minecraftforge:forge:${version_forge_minecraft}"
+  //compileOnly fg.deobf("mezz.jei:jei-${version_minecraft}-forge-api:${version_jei}")
+  //runtimeOnly fg.deobf("mezz.jei:jei-${version_minecraft}-forge:${version_jei}")
+}
+
+processResources {
+  outputs.upToDateWhen { false }
+  doLast { file("${sourceSets.main.output.resourcesDir}/.gitversion-engineersdecor").text = 'git log "-1" "--format=%h"'.execute().in.text.trim() }
+}
+
+jar {
+  manifest {
+    attributes([
+      "Specification-Title": "engineersdecor",
+      "Specification-Vendor": "wilechaote",
+      "Specification-Version": "1", // We are version 1 of ourselves
+      "Implementation-Title": project.name,
+      "Implementation-Version": "${version_engineersdecor}",
+      "Implementation-Vendor" :"wilechaote",
+      "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    ])
+  }
+}
+
+jar.finalizedBy('reobfJar')
+
+// Signing
+import net.minecraftforge.gradle.common.tasks.SignJar
+project.afterEvaluate {
+  task signJar(type: SignJar, dependsOn: jar) {
+    onlyIf { project.hasProperty("keystore_file") }
+    if(project.hasProperty("keystore_file")) {
+      keyStore = project.getProperty("keystore_file")
+      alias = project.getProperty("keystore_alias")
+      storePass = project.getProperty("keystore_pass")
+      keyPass = project.getProperty("keystore_keypass")
+      inputFile = jar.archiveFile
+      outputFile = jar.archiveFile
+    } else {
+      logger.warn("[WARNING] Signing skipped.")
+    }
+  }
+  reobfJar.finalizedBy('signJar')
+}
+
+tasks.withType(JavaCompile).configureEach {
+  options.encoding = 'UTF-8'
+}
