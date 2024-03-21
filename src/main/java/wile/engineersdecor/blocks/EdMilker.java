@@ -141,7 +141,6 @@ public class EdMilker
       return (te==null) ? 0 : Mth.clamp((16 * te.fluid_level())/TANK_CAPACITY, 0, 15);
     }
 
-    @Override
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
 
@@ -406,7 +405,7 @@ public class EdMilker
             }
             return false;
           }
-          if(cow.isLeashed() || cow.isBaby() || cow.isInLove() || (!cow.isOnGround()) || cow.isVehicle() || cow.isSprinting())
+          if(cow.isLeashed() || cow.isBaby() || cow.isInLove() || (!cow.onGround()) || cow.isVehicle() || cow.isSprinting())
             return false;
           tracked_cows_.put(cow.getId(), cow.getCommandSenderWorld().getGameTime());
           tracked_cow_ = cow.getUUID();
@@ -552,7 +551,7 @@ public class EdMilker
       abort_condition_ = abort_condition;
       on_target_position_reached_ = on_position_reached;
       on_aborted_ = on_aborted;
-      blockPos = new BlockPos(pos.x(), pos.y(), pos.z());
+      blockPos = new BlockPos((int) pos.x(), (int) pos.y(), (int) pos.z());
       tryTicks = 0;
       nextStartTick = 0;
       aborted_ = false;
@@ -615,7 +614,7 @@ public class EdMilker
       abort_condition_ = abort_condition;
       on_target_position_reached_ = on_position_reached;
       on_aborted_ = on_aborted;
-      blockPos = new BlockPos(target_pos.x(), target_pos.y(), target_pos.z());
+      blockPos = new BlockPos((int)target_pos.x(), (int)target_pos.y(), (int)target_pos.z());
       tryTicks = 0;
       nextStartTick = 0;
       aborted_ = false;
@@ -640,10 +639,10 @@ public class EdMilker
     public boolean canUse()
     {
       if(aborted_) {
-        if((!was_aborted_) && (on_aborted_!=null)) on_aborted_.apply(this, mob.level, target_pos_);
+        if((!was_aborted_) && (on_aborted_!=null)) on_aborted_.apply(this, mob.level(), target_pos_);
         was_aborted_ = true;
         return false;
-      } else if(!isValidTarget(mob.level, blockPos)) {
+      } else if(!isValidTarget(mob.level(), blockPos)) {
         synchronized(this) { aborted_ = true; }
         return false;
       } else if(--nextStartTick > 0) {
@@ -683,7 +682,7 @@ public class EdMilker
         log("shouldContinueExecuting() -> abort, timeout");
         abort();
         return false;
-      } else if(!isValidTarget(mob.level, blockPos)) {
+      } else if(!isValidTarget(mob.level(), blockPos)) {
         log("shouldContinueExecuting() -> abort, !shouldMoveTo()");
         abort();
         return false;
@@ -707,7 +706,7 @@ public class EdMilker
     @Override
     public void tick()
     {
-      final BlockPos testpos = new BlockPos(target_pos_.x(), mob.position().y(), target_pos_.z());
+      final BlockPos testpos = new BlockPos((int)target_pos_.x(),(int)mob.position().y(), (int)target_pos_.z());
       if(!testpos.closerToCenterThan(mob.position(), acceptedDistance())) {
         if((++tryTicks > motion_timeout)) {
           log("tick() -> abort, timeoutCounter");
@@ -722,7 +721,7 @@ public class EdMilker
         log("tick() -> abort, in position)");
         in_position_ = true;
         abort();
-        if(on_target_position_reached_ != null) on_target_position_reached_.apply(this, mob.level, target_pos_);
+        if(on_target_position_reached_ != null) on_target_position_reached_.apply(this, mob.level(), target_pos_);
       }
     }
   }

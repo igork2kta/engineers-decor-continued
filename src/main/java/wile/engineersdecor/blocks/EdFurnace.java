@@ -9,6 +9,7 @@
 package wile.engineersdecor.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -118,7 +119,6 @@ public class EdFurnace
       return (te instanceof FurnaceTileEntity) ? ((FurnaceTileEntity)te).getComparatorOutput() : 0;
     }
 
-    @Override
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
 
@@ -600,7 +600,7 @@ public class EdFurnace
       if(recipe_result_items.isEmpty()) return false;
       final ItemStack result_stack = inventory_.getItem(SMELTING_OUTPUT_SLOT_NO);
       if(result_stack.isEmpty()) return true;
-      if(!result_stack.sameItem(recipe_result_items)) return false;
+      if(!result_stack.isSameItem(recipe_result_items, result_stack)) return false;
       if(result_stack.getCount() + recipe_result_items.getCount() <= inventory_.getMaxStackSize() && result_stack.getCount() + recipe_result_items.getCount() <= result_stack.getMaxStackSize()) return true;
       return result_stack.getCount() + recipe_result_items.getCount() <= recipe_result_items.getMaxStackSize();
     }
@@ -642,7 +642,7 @@ public class EdFurnace
     }
 
     public ItemStack getSmeltingResult(final ItemStack stack)
-    { return (currentRecipe()==null) ? (ItemStack.EMPTY) : (currentRecipe().getResultItem()); }
+    { return (currentRecipe()==null) ? (ItemStack.EMPTY) : (currentRecipe().getResultItem(level.registryAccess())); }
 
     public float getCurrentSmeltingXp(final ItemStack stack)
     {
@@ -700,15 +700,15 @@ public class EdFurnace
       @Override
       protected void checkTakeAchievements(ItemStack stack)
       {
-        stack.onCraftedBy(player_.level, player_, removeCount);
-        if((!player_.level.isClientSide()) && (inventory_ instanceof StorageInventory) &&
+        stack.onCraftedBy(player_.level(), player_, removeCount);
+        if((!player_.level().isClientSide()) && (inventory_ instanceof StorageInventory) &&
           ((((StorageInventory)inventory_).getBlockEntity()) instanceof final FurnaceTileEntity te)
         ) {
           int xp = te.consumeSmeltingExperience(stack);
           while(xp > 0) {
             int k = ExperienceOrb.getExperienceValue(xp);
             xp -= k;
-            player_.level.addFreshEntity((new ExperienceOrb(player_.level, player_.blockPosition().getX(), player_.blockPosition().getY()+0.5, player_.blockPosition().getZ()+0.5, k)));
+            player_.level().addFreshEntity((new ExperienceOrb(player_.level(), player_.blockPosition().getX(), player_.blockPosition().getY()+0.5, player_.blockPosition().getZ()+0.5, k)));
           }
         }
         removeCount = 0;
@@ -747,7 +747,7 @@ public class EdFurnace
     public int field(int index) { return fields_.get(index); }
     public Player player() { return player_ ; }
     public Container inventory() { return inventory_ ; }
-    public Level world() { return player_.level; }
+    public Level world() { return player_.level(); }
 
     public FurnaceContainer(int cid, Inventory player_inventory)
     { this(cid, player_inventory, new SimpleContainer(FurnaceTileEntity.NUM_OF_SLOTS), ContainerLevelAccess.NULL, new SimpleContainerData(FurnaceTileEntity.NUM_OF_FIELDS)); }
@@ -813,7 +813,7 @@ public class EdFurnace
             (!moveItemStackTo(slot_stack, 3, 4, false)) && // fifo0
             (!moveItemStackTo(slot_stack, 4, 5, false))    // fifo1
           ) return ItemStack.EMPTY;
-        } else if(FurnaceTileEntity.isFuel(player_.level, slot_stack)) {
+        } else if(FurnaceTileEntity.isFuel(player_.level(), slot_stack)) {
           if(
             (!moveItemStackTo(slot_stack, 1, 2, false)) && // fuel input
             (!moveItemStackTo(slot_stack, 5, 6, false)) && // fuel fifo0
@@ -876,14 +876,19 @@ public class EdFurnace
     { super(container, player_inventory, title, "textures/gui/small_lab_furnace_gui.png"); }
 
     @Override
+    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+
+    }
+
+    @Override
     protected void renderBgWidgets(PoseStack mx, float partialTicks, int mouseX, int mouseY)
     {
       final int x0=leftPos, y0=topPos, w=imageWidth, h=imageHeight;
       if(getMenu().field(4) != 0) {
         final int k = flame_px(13);
-        blit(mx, x0+59, y0+36+12-k, 176, 12-k, 14, k+1);
+        //blit(mx, x0+59, y0+36+12-k, 176, 12-k, 14, k+1);
       }
-      blit(mx, x0+79, y0+36, 176, 15, 1+progress_px(17), 15);
+      //blit(mx, x0+79, y0+36, 176, 15, 1+progress_px(17), 15);
     }
 
     private int progress_px(int pixels)

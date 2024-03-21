@@ -79,7 +79,7 @@ public class EdLadderBlock extends LadderBlock implements StandardBlocks.IStanda
     };
   }
 
-  @Override
+
   public boolean isPossibleToRespawnInThis()
   { return false; }
 
@@ -99,11 +99,11 @@ public class EdLadderBlock extends LadderBlock implements StandardBlocks.IStanda
   // Player update event, forwarded from the main mod instance.
   public static void onPlayerUpdateEvent(final Player player)
   {
-    if((without_speed_boost_) || (player.isOnGround()) || (!player.onClimbable()) || (player.isSteppingCarefully()) || (player.isSpectator())) return;
+    if((without_speed_boost_) || (player.onGround()) || (!player.onClimbable()) || (player.isSteppingCarefully()) || (player.isSpectator())) return;
     double lvy = player.getLookAngle().y;
     if(Math.abs(lvy) < 0.92) return;
     final BlockPos pos = player.blockPosition();
-    final BlockState state = player.getLevel().getBlockState(pos);
+    final BlockState state = player.level().getBlockState(pos);
     final Block block = state.getBlock();
     if(!(block instanceof EdLadderBlock || block instanceof EdHatchBlock && state.getValue(EdHatchBlock.OPEN))) return;
     player.resetFallDistance();

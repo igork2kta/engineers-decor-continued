@@ -188,7 +188,6 @@ public class StandardFenceBlock extends WallBlock implements StandardBlocks.ISta
   public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
   { return false; }
 
-  @Override
   public boolean isPossibleToRespawnInThis()
   { return false; }
 

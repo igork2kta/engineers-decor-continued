@@ -31,6 +31,7 @@ public class ModEngineersDecor
 
   public ModEngineersDecor()
   {
+
     Auxiliaries.init(MODID, LOGGER, ModConfig::getServerConfig);
     Auxiliaries.logGitVersion(MODNAME);
     Registries.init(MODID, "sign_decor", (reg)->reg.register(FMLJavaModLoadingContext.get().getModEventBus()));
@@ -88,10 +89,11 @@ public class ModEngineersDecor
   @Mod.EventBusSubscriber(Dist.CLIENT)
   public static class ForgeClientEvents
   {
+    /*
     @SubscribeEvent
     public static void onRenderGui(net.minecraftforge.client.event.RenderGuiOverlayEvent.Post event)
     { Overlay.TextOverlayGui.INSTANCE.onRenderGui(event.getPoseStack()); }
-
+    */
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onRenderWorldOverlay(net.minecraftforge.client.event.RenderLevelStageEvent event)

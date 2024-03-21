@@ -255,7 +255,8 @@ public class EdBreaker
       final Block block = state.getBlock();
       if(blacklist.contains(block)) return false;
       if(state.isAir()) return false;
-      if(state.getMaterial().isLiquid()) return false;
+      //if(state.getMaterial().isLiquid()) return false;
+      if(state.liquid()) return false;
       float bh = state.getDestroySpeed(world, pos);
       return !((bh<0) || (bh>55));
     }

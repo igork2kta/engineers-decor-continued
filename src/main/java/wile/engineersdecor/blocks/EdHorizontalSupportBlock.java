@@ -84,7 +84,7 @@ public class EdHorizontalSupportBlock extends StandardBlocks.WaterLoggable
   public RenderTypeHint getRenderTypeHint()
   { return RenderTypeHint.CUTOUT; }
 
-  @Override
+
   public boolean isPossibleToRespawnInThis()
   { return false; }
 

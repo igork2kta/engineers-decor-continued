@@ -186,7 +186,6 @@ public class VariantWallBlock extends WallBlock implements StandardBlocks.IStand
   public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
   { return false; }
 
-  @Override
   public boolean isPossibleToRespawnInThis()
   { return false; }
 

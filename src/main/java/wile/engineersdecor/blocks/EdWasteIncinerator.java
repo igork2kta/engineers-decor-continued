@@ -8,6 +8,7 @@
  */
 package wile.engineersdecor.blocks;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -103,7 +104,7 @@ public class EdWasteIncinerator
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos pos)
     { return (!(world.getBlockEntity(pos) instanceof WasteIncineratorTileEntity te)) ? 0 : RsSignals.fromContainer(te.main_inventory_); }
 
-    @Override
+
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
 
@@ -396,7 +397,7 @@ public class EdWasteIncinerator
     public int field(int index) { return fields_.get(index); }
     public Player player() { return player_ ; }
     public Container inventory() { return inventory_ ; }
-    public Level world() { return player_.level; }
+    public Level world() { return player_.level(); }
 
     public WasteIncineratorContainer(int cid, Inventory player_inventory)
     { this(cid, player_inventory, new SimpleContainer(WasteIncineratorTileEntity.NUM_OF_SLOTS), ContainerLevelAccess.NULL, new SimpleContainerData(WasteIncineratorTileEntity.NUM_OF_FIELDS)); }
@@ -476,6 +477,11 @@ public class EdWasteIncinerator
   {
     public WasteIncineratorGui(WasteIncineratorContainer container, Inventory player_inventory, Component title)
     { super(container, player_inventory, title, "textures/gui/small_waste_incinerator_gui.png"); }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+      
+    }
   }
 
 }

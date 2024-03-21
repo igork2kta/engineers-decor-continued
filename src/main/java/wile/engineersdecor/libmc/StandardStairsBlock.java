@@ -38,10 +38,11 @@ public class StandardStairsBlock extends StairBlock implements StandardBlocks.IS
   public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag flag)
   { Auxiliaries.Tooltip.addInformation(stack, world, tooltip, flag, true); }
 
+  /*
   @Override
   public boolean isPossibleToRespawnInThis()
   { return false; }
-
+*/
   @Override
   public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
   { return false; }

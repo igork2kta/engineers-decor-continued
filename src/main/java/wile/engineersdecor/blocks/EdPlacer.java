@@ -9,6 +9,7 @@
 package wile.engineersdecor.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -407,7 +408,7 @@ public class EdPlacer
         final boolean replacable = (current_placement_pos_state.getBlock().canBeReplaced(current_placement_pos_state, Fluids.EMPTY)) && (
           level.isEmptyBlock(placement_pos) ||
           (current_placement_pos_state.getBlock() instanceof IFluidBlock) ||
-          (current_placement_pos_state.getMaterial().isReplaceable() && (!current_placement_pos_state.getMaterial().isSolid()))
+          (current_placement_pos_state.canBeReplaced() && (!current_placement_pos_state.isSolid()))
         );
         if((!replacable) || (
           (!level.getEntitiesOfClass(Entity.class, new AABB(placement_pos), (Entity e)->{
@@ -684,6 +685,12 @@ public class EdPlacer
     }
 
     @Override
+    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+
+    }
+
+
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
     {
       tooltip_.resetTimer();
@@ -732,21 +739,21 @@ public class EdPlacer
         if((slot_index < 0) || (slot_index >= PlacerTileEntity.NUM_OF_SLOTS)) slot_index = 0;
         int x = (x0+10+((slot_index % 6) * 18));
         int y = (y0+8+((slot_index / 6) * 17));
-        blit(mx, x, y, 200, 8, 18, 18);
+        //blit(mx, x, y, 200, 8, 18, 18);
       }
       // redstone input
       {
         if(container.field(1) != 0) {
-          blit(mx, x0+133, y0+49, 217, 49, 9, 9);
+          //blit(mx, x0+133, y0+49, 217, 49, 9, 9);
         }
       }
       // trigger logic
       {
         int inverter_offset_x = ((container.field(0) & PlacerTileEntity.LOGIC_INVERTED) != 0) ? 11 : 0;
         int inverter_offset_y = ((container.field(0) & PlacerTileEntity.LOGIC_IGNORE_EXT) != 0) ? 10 : 0;
-        blit(mx, x0+145, y0+49, 177+inverter_offset_x, 49+inverter_offset_y, 9, 9);
+        //blit(mx, x0+145, y0+49, 177+inverter_offset_x, 49+inverter_offset_y, 9, 9);
         int pulse_mode_offset  = ((container.field(0) & PlacerTileEntity.LOGIC_CONTINUOUS    ) != 0) ? 9 : 0;
-        blit(mx, x0+159, y0+49, 199+pulse_mode_offset, 49, 9, 9);
+        //blit(mx, x0+159, y0+49, 199+pulse_mode_offset, 49, 9, 9);
       }
     }
   }

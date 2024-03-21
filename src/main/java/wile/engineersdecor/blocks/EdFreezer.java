@@ -149,7 +149,6 @@ public class EdFreezer
       }
     }
 
-    @Override
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
 

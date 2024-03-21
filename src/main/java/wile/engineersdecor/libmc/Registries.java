@@ -8,6 +8,7 @@
  */
 package wile.engineersdecor.libmc;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -24,6 +25,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import wile.engineersdecor.ModEngineersDecor;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -38,7 +40,8 @@ public class Registries
   private static String creative_tab_icon = "";
   //private static CreativeModeTab creative_tab = null;
 
-  public static DeferredRegister<CreativeModeTab> creative_tab = null;
+  public static final DeferredRegister<CreativeModeTab> creative_tabs =
+          DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, ModEngineersDecor.MODID);
   private static final Map<String, TagKey<Block>> registered_block_tag_keys = new HashMap<>();
   private static final Map<String, TagKey<Item>> registered_item_tag_keys = new HashMap<>();
 
@@ -56,7 +59,7 @@ public class Registries
   private static DeferredRegister<EntityType<?>> ENTITIES;
   private static DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS;
   private static List<DeferredRegister<?>> MOD_REGISTRIES;
-
+  private static RegistryObject<CreativeModeTab> creative_tab;
   public static void init(String mod_id, String creative_tab_icon_item_name, Consumer<DeferredRegister<?>> registrar)
   {
     modid = mod_id;
@@ -70,29 +73,20 @@ public class Registries
     List.of(BLOCKS, ITEMS, BLOCK_ENTITIES, MENUS, ENTITIES, RECIPE_SERIALIZERS).forEach(registrar);
   }
 
+public static void addCreativeTab(){
+    creative_tab = creative_tabs.register("tab" + modid,
+          () -> CreativeModeTab.builder().icon( () -> new ItemStack(getItem(creative_tab_icon)))
+                  .title(Component.translatable("itemGroup.tabengineersdecor"))
+                  .displayItems((itemDisplayParameters, output) -> {
+                    getRegisteredItems().forEach(item -> output.accept(item.asItem()));
+                  })
+                  .build());
 
-  public static DeferredRegister<CreativeModeTab> getCreativeModeTab()
-  {
 
-    if(creative_tab==null) {
-      /*
-      creative_tab = (new CreativeModeTab("tab" + modid) {
-        public ItemStack makeIcon() { return new ItemStack(getItem(creative_tab_icon)); }
-      });
-
-     */
-
-      creative_tab = DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, modid);
-
-    }
-    return creative_tab;
-  }
-
-  //public static final RegistryObject<CreativeModeTab>
-
+}
 
   public static void register(IEventBus eventBus){
-    creative_tab.register(eventBus);
+    creative_tabs.register(eventBus);
   }
 
   // -------------------------------------------------------------------------------------------------------------
@@ -159,7 +153,7 @@ public class Registries
   public static <T extends Block> void addBlock(String registry_name, Supplier<T> block_supplier)
   {
     registered_blocks.put(registry_name, BLOCKS.register(registry_name, block_supplier));
-    registered_items.put(registry_name, ITEMS.register(registry_name, ()->new BlockItem(registered_blocks.get(registry_name).get(), (new Item.Properties()).tab(getCreativeModeTab()))));
+    registered_items.put(registry_name, ITEMS.register(registry_name, ()->new BlockItem(registered_blocks.get(registry_name).get(), new Item.Properties())));
   }
 
   public static <TB extends Block, TI extends Item> void addBlock(String registry_name, Supplier<TB> block_supplier, Supplier<TI> item_supplier)
@@ -209,7 +203,7 @@ public class Registries
 
   public static <TB extends Block, TI extends Item> void addBlock(String registry_name, Supplier<TB> block_supplier, BiFunction<Block, Item.Properties, Item> item_builder)
   {
-    addBlock(registry_name, block_supplier, ()->item_builder.apply(registered_blocks.get(registry_name).get(), (new Item.Properties()).tab(getCreativeModeTab())));
+    addBlock(registry_name, block_supplier, ()->item_builder.apply(registered_blocks.get(registry_name).get(), (new Item.Properties())));
   }
 
   public static void addBlock(String registry_name, Supplier<? extends Block> block_supplier, BlockEntityType.BlockEntitySupplier<?> block_entity_ctor)

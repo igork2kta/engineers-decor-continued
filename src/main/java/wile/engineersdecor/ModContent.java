@@ -24,6 +24,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -40,6 +41,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegistryObject;
 import wile.engineersdecor.blocks.*;
 import wile.engineersdecor.detail.ModRenderers;
 import wile.engineersdecor.items.EdItem;
@@ -62,12 +64,14 @@ public class ModContent
   public static void init(String modid)
   {
 
+    IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 
     Registries.register(modEventBus);
     detail.MODID = modid;
     initTags();
-    initBlocks();initItems();
+    initBlocks();
+    initItems();
     initEntities();
   }
 
@@ -78,11 +82,12 @@ public class ModContent
 
   public static void initBlocks()
   {
+
     Registries.addBlock("clinker_brick_block", ()->new StandardBlocks.BaseBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.copy(Blocks.STONE)
     ));
-    Registries.addBlock("clinker_brick_slab", ()->new VariantSlabBlock(
+        Registries.addBlock("clinker_brick_slab", ()->new VariantSlabBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.copy(Blocks.STONE)
     ));
@@ -363,38 +368,58 @@ public class ModContent
 
     // -------------------------------------------------------------------------------------------------------------------
 
-    Registries.addBlock("iron_inset_light", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state)->15).noOcclusion(),
-      new AABB[] {
-        Auxiliaries.getPixeledAABB( 5,7,0, 11, 9,0.375),
-        Auxiliaries.getPixeledAABB( 6,6,0, 10,10,0.375),
-        Auxiliaries.getPixeledAABB( 7,5,0,  9,11,0.375)
+    Registries.addBlock("iron_inset_light", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_OPPOSITE_PLACEMENT | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state) -> 15).noOcclusion(),
+            new AABB[]{
+                    Auxiliaries.getPixeledAABB(5, 7, 0, 11, 9, 0.375),
+                    Auxiliaries.getPixeledAABB(6, 6, 0, 10, 10, 0.375),
+                    Auxiliaries.getPixeledAABB(7, 5, 0, 9, 11, 0.375)
+            }
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
       }
-    ));
-    Registries.addBlock("iron_floor_edge_light", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state)->15).noOcclusion(),
-      Auxiliaries.getPixeledAABB(5,0,0, 11,1.8125,0.375)
-    ));
-    Registries.addBlock("iron_ceiling_edge_light", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_LOOK_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state)->15).noOcclusion(),
-      new AABB[]{
-        Auxiliaries.getPixeledAABB( 0,15.5,0, 16,16,2.0),
-        Auxiliaries.getPixeledAABB( 0,14.0,0, 16,16,0.5),
-        Auxiliaries.getPixeledAABB( 0,14.0,0,  1,16,2.0),
-        Auxiliaries.getPixeledAABB(15,14.0,0, 16,16,2.0),
+    });
+    Registries.addBlock("iron_floor_edge_light", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_LOOK_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state) -> 15).noOcclusion(),
+            Auxiliaries.getPixeledAABB(5, 0, 0, 11, 1.8125, 0.375)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
       }
-    ));
-    Registries.addBlock("iron_bulb_light", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_OPPOSITE_PLACEMENT|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state)->15).noOcclusion(),
-      new AABB[]{
-        Auxiliaries.getPixeledAABB(6.5,6.5,1, 9.5,9.5,4),
-        Auxiliaries.getPixeledAABB(6.0,6.0,0, 10.0,10.0,1.0)
+    });
+    Registries.addBlock("iron_ceiling_edge_light", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_LOOK_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state) -> 15).noOcclusion(),
+            new AABB[]{
+                    Auxiliaries.getPixeledAABB(0, 15.5, 0, 16, 16, 2.0),
+                    Auxiliaries.getPixeledAABB(0, 14.0, 0, 16, 16, 0.5),
+                    Auxiliaries.getPixeledAABB(0, 14.0, 0, 1, 16, 2.0),
+                    Auxiliaries.getPixeledAABB(15, 14.0, 0, 16, 16, 2.0),
+            }
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
       }
-    ));
+    });
+    Registries.addBlock("iron_bulb_light", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_OPPOSITE_PLACEMENT | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.5f, 8f).sound(SoundType.METAL).lightLevel((state) -> 15).noOcclusion(),
+            new AABB[]{
+                    Auxiliaries.getPixeledAABB(6.5, 6.5, 1, 9.5, 9.5, 4),
+                    Auxiliaries.getPixeledAABB(6.0, 6.0, 0, 10.0, 10.0, 1.0)
+            }
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
 
     // -------------------------------------------------------------------------------------------------------------------
 
@@ -551,71 +576,136 @@ public class ModContent
 
     // -------------------------------------------------------------------------------------------------------------------
 
-    Registries.addBlock("sign_decor", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.3f, 1000f).sound(SoundType.WOOD).lightLevel((state)->1).noOcclusion(),
-      Auxiliaries.getPixeledAABB(0,0,15.6, 16,16,16.0)
-    ));
-    Registries.addBlock("sign_hotwire", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_danger", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_radioactive", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_laser", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_caution", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_magichazard", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_firehazard", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_hotsurface", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_magneticfield", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_frost", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
-    Registries.addBlock("sign_exit", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(3,7,15.6, 13,13,16)
-    ));
-    Registries.addBlock("sign_defense", ()->new StandardBlocks.DirectedWaterLoggable(
-      StandardBlocks.CFG_CUTOUT|StandardBlocks.CFG_FACING_PLACEMENT|StandardBlocks.CFG_HORIZIONTAL|StandardBlocks.CFG_AI_PASSABLE,
-      BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
-      Auxiliaries.getPixeledAABB(2,2,15.6, 14,14,16)
-    ));
+    Registries.addBlock("sign_decor", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.3f, 1000f).sound(SoundType.WOOD).lightLevel((state) -> 1).noOcclusion(),
+            Auxiliaries.getPixeledAABB(0, 0, 15.6, 16, 16, 16.0)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_hotwire", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_danger", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_radioactive", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_laser", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_caution", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_magichazard", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_firehazard", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_hotsurface", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_magneticfield", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_frost", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_exit", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(3, 7, 15.6, 13, 13, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
+    Registries.addBlock("sign_defense", ()-> new StandardBlocks.DirectedWaterLoggable(
+            StandardBlocks.CFG_CUTOUT | StandardBlocks.CFG_FACING_PLACEMENT | StandardBlocks.CFG_HORIZIONTAL | StandardBlocks.CFG_AI_PASSABLE,
+            BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(0.2f, 1f).sound(SoundType.WOOD).noOcclusion(),
+            Auxiliaries.getPixeledAABB(2, 2, 15.6, 14, 14, 16)
+    ) {
+      @Override
+      public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
+        return false;
+      }
+    });
 
     // -------------------------------------------------------------------------------------------------------------------
 
@@ -874,15 +964,8 @@ public class ModContent
       ),
       EdTestBlock.TestTileEntity::new
     );
-
+    Registries.addCreativeTab();
   }
-
-  static void addCreative(BuildCreativeModeTabContentsEvent event) {
-    if (event.getTabKey() == Registries.getCreativeModeTab().getRegistryKey()) {
-
-    }
-  }
-
 
   public static void initItems()
   {

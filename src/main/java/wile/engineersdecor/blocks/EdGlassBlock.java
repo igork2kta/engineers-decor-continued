@@ -47,7 +47,7 @@ public class EdGlassBlock extends StainedGlassBlock implements StandardBlocks.IS
   public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side)
   { return (adjacentBlockState.getBlock()==this) || (super.skipRendering(state, adjacentBlockState, side)); }
 
-  @Override
+
   public boolean isPossibleToRespawnInThis()
   { return false; }
 

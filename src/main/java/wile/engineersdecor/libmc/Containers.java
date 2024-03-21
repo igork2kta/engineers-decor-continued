@@ -41,7 +41,7 @@ public class Containers
     @Override
     public void set(ItemStack stack)
     {
-      if(stack.sameItem(getItem())) {
+      if(ItemStack.isSameItem(getItem(), stack)) {
         super.set(stack);
       } else {
         final ItemStack before = getItem().copy();

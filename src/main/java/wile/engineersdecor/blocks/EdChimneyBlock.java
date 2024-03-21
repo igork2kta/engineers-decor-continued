@@ -71,11 +71,11 @@ public class EdChimneyBlock extends StandardBlocks.Cutout
     int p = world.getBestNeighborSignal(pos);
     if(p != state.getValue(POWER)) world.setBlock(pos, state.setValue(POWER, p), 2);
   }
-
+/*
   @Override
   public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
   { return false; }
-
+*/
   @Override
   @OnlyIn(Dist.CLIENT)
   public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rnd)
@@ -97,5 +97,4 @@ public class EdChimneyBlock extends StandardBlocks.Cutout
       );
     }
   }
-
 }

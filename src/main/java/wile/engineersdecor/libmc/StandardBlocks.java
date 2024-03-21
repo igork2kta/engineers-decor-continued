@@ -140,7 +140,7 @@ public class StandardBlocks
       super.onRemove(state, world, pos, newState, isMoving);
       if(rsup) world.updateNeighbourForOutputSignal(pos, this);
     }
-
+/*
     @Override
     @SuppressWarnings("deprecation")
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
@@ -151,7 +151,7 @@ public class StandardBlocks
       if((!hasDynamicDropList()) || (world==null)) return super.getDrops(state, builder);
       boolean is_explosion = (explosion_radius!=null) && (explosion_radius > 0);
       return dropList(state, world, te, is_explosion);
-    }
+    }*/
 
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos)
@@ -225,10 +225,11 @@ public class StandardBlocks
       return state;
     }
 
+    /*
     @Override
     public boolean isPossibleToRespawnInThis()
     { return false; }
-
+*/
     @Override
     @SuppressWarnings("deprecation")
     public PushReaction getPistonPushReaction(BlockState state)
@@ -319,11 +320,11 @@ public class StandardBlocks
 
     public Directed(long config, BlockBehaviour.Properties properties, final AABB unrotatedAABB)
     { this(config, properties, new AABB[]{unrotatedAABB}); }
-
+/*
     @Override
     public boolean isPossibleToRespawnInThis()
     { return false; }
-
+*/
     @Override
     public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
     { return false; }
@@ -390,10 +391,11 @@ public class StandardBlocks
     public AxisAligned(long config, BlockBehaviour.Properties properties, final AABB unrotatedAABB)
     { this(config, properties, new AABB[]{unrotatedAABB}); }
 
+    /*
     @Override
     public boolean isPossibleToRespawnInThis()
     { return false; }
-
+*/
     @Override
     public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
     { return false; }
@@ -519,7 +521,7 @@ public class StandardBlocks
     { return state.rotate(mirrorIn.getRotation(state.getValue(HORIZONTAL_FACING))); }
   }
 
-  public static class DirectedWaterLoggable extends Directed implements IStandardBlock
+  public abstract static class DirectedWaterLoggable extends Directed implements IStandardBlock
   {
     public DirectedWaterLoggable(long config, BlockBehaviour.Properties properties, AABB aabb)
     { super(config|CFG_WATERLOGGABLE, properties, aabb); }

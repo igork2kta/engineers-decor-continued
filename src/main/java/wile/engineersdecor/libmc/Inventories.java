@@ -47,10 +47,10 @@ import java.util.stream.Stream;
 public class Inventories
 {
   public static boolean areItemStacksIdentical(ItemStack a, ItemStack b)
-  { return (a.getItem()==b.getItem()) && ItemStack.tagMatches(a, b); }
+  { return (a.getItem()==b.getItem()) && ItemStack.matches(a, b); }
 
   public static boolean areItemStacksDifferent(ItemStack a, ItemStack b)
-  { return (a.getItem()!=b.getItem()) || (!ItemStack.tagMatches(a, b)); }
+  { return (a.getItem()!=b.getItem()) || (!ItemStack.matches(a, b)); }
 
   public static IItemHandler itemhandler(Level world, BlockPos pos, @Nullable Direction side)
   {

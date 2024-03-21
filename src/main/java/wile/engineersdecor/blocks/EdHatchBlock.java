@@ -149,7 +149,6 @@ public class EdHatchBlock extends StandardBlocks.HorizontalWaterLoggable
     return state.getValue(OPEN) ? Shapes.empty() : super.getOcclusionShape(state, world, pos);
   }
 
-  @Override
   public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
   { return false; }
 

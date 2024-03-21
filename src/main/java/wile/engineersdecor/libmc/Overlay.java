@@ -103,6 +103,7 @@ public class Overlay
     TextOverlayGui()
     { super(Component.literal("")); }
 
+    /*
     public void onRenderGui(final com.mojang.blaze3d.vertex.PoseStack mxs)
     {
       if(deadline() < System.currentTimeMillis()) return;
@@ -124,7 +125,7 @@ public class Overlay
       vLine(mxs, cx+(w/2)+2, cy-2, cy+h+2, 0xaa333333);
       drawCenteredString(mxs, fr, text(), cx , cy+1, 0x00ffaa00);
     }
-
+  */
     @SuppressWarnings("deprecation")
     public void onRenderWorldOverlay(final com.mojang.blaze3d.vertex.PoseStack mxs, final double partialTick)
     {

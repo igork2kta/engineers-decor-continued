@@ -11,13 +11,16 @@ package wile.engineersdecor.libmc;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -35,6 +38,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
@@ -278,19 +282,21 @@ public class Auxiliaries
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(Item item)
-  { return Registry.ITEM.getKey(item); }
+  {
+    return BuiltInRegistries.ITEM.getKey(item);
+  }
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(Block block)
-  { return Registry.BLOCK.getKey(block); }
+  { return BuiltInRegistries.BLOCK.getKey(block); }
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(net.minecraft.world.inventory.MenuType<?> menu)
-  { return Registry.MENU.getKey(menu); }
+  { return BuiltInRegistries.MENU.getKey(menu); }
 
   @SuppressWarnings("deprecation")
   public static ResourceLocation getResourceLocation(net.minecraft.world.level.material.Fluid fluid)
-  { return Registry.FLUID.getKey(fluid); }
+  { return BuiltInRegistries.FLUID.getKey(fluid); }
 
   // -------------------------------------------------------------------------------------------------------------------
   // Item NBT data

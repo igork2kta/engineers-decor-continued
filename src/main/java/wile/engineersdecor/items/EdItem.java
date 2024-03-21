@@ -30,7 +30,7 @@ public class EdItem extends Item
 {
   public EdItem(Item.Properties properties)
   {
-    super(properties.tab(Registries.getCreativeModeTab()));
+    super(properties);
   }
 
 
@@ -40,7 +40,10 @@ public class EdItem extends Item
   public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag)
   { Auxiliaries.Tooltip.addInformation(stack, world, tooltip, flag, true); }
 
+  /*
   @Override
   public Collection<CreativeModeTab> getCreativeTabs()
   { return ModConfig.isOptedOut(this) ? (new ArrayList<>()) : (Collections.singletonList(Registries.getCreativeModeTab())); }
+  */
+
 }
