@@ -13,13 +13,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.sounds.SoundManager;
@@ -32,7 +29,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector2ic;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -79,60 +75,67 @@ public class Guis
     }
 
     @Override
-    public void render(GuiGraphics mx, int mouseX, int mouseY, float partialTicks)
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
     {
-      renderBackground(mx);
-      super.render(mx, mouseX, mouseY, partialTicks);
-      if(!tooltip_.render(mx, this, mouseX, mouseY)) renderTooltip(mx, mouseX, mouseY);
+      super.render(guiGraphics, mouseX, mouseY, partialTicks);
+      renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
-/*
     @Override
-    protected void renderLabels(PoseStack mx, int x, int y)
-    {}
-
-
     @SuppressWarnings("deprecation")
-    protected final void renderBg(PoseStack mx, float partialTicks, int mouseX, int mouseY)
+    protected final void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY)
     {
+      renderBackground(guiGraphics);
+      guiGraphics.blit(background_image_, this.leftPos, this.topPos, 0,0, this.imageWidth, this.imageHeight );
+
       RenderSystem.setShader(GameRenderer::getPositionTexShader);
       RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
       RenderSystem.enableBlend();
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableDepthTest();
-      gui_background_.draw(mx, this);
-      renderBgWidgets(mx, partialTicks, mouseX, mouseY);
+      gui_background_.draw(guiGraphics, this);
+      renderBgWidgets(guiGraphics, partialTicks, mouseX, mouseY);
       RenderSystem.disableBlend();
+
     }
-*/
+
+
+    @Override
+    protected void renderLabels(GuiGraphics mx, int x, int y)
+    {}
+
     public final ResourceLocation getBackgroundImage()
     { return background_image_; }
 
-    protected void renderBgWidgets(PoseStack mx, float partialTicks, int mouseX, int mouseY)
+    protected void renderBgWidgets(GuiGraphics mx, float partialTicks, int mouseX, int mouseY)
     {}
-/*
-    protected void renderItemTemplate(PoseStack mx, ItemStack stack, int x, int y)
+
+    protected void renderItemTemplate(GuiGraphics guiGraphics, ItemStack stack, int x, int y)
     {
-      final ItemRenderer ir = itemRenderer;
-      final int main_zl = getBlitOffset();
+      /*
+      final ItemRenderer ir = mx.item;
+      final int main_zl = mx.getBlitOffset();
       final float zl = ir.blitOffset;
       final int x0 = getGuiLeft();
       final int y0 = getGuiTop();
       ir.blitOffset = -80;
       ir.renderGuiItem(stack, x0+x, y0+y);
       RenderSystem.disableColorLogicOp(); //RenderSystem.disableColorMaterial();
-      RenderSystem.enableDepthTest(); //RenderSystem.enableAlphaTest();
+      RenderSystem.enableDepthTest(); //RenderSystem.enableAlphaTest();'
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableBlend();
       ir.blitOffset = zl;
       setBlitOffset(100);
+      */
       RenderSystem.colorMask(true, true, true, true);
       RenderSystem.setShaderColor(0.7f, 0.7f, 0.7f, 0.8f);
       RenderSystem.setShaderTexture(0, background_image_);
-      blit(mx, x0+x, y0+y, x, y, 16, 16);
+      //blit(mx, x0+x, y0+y, x, y, 16, 16);
       RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-      setBlitOffset(main_zl);
-    }*/
+      //setBlitOffset(main_zl);
+    }
+
+
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -190,11 +193,6 @@ public class Guis
     public final int getHeight()
     { return this.height; }
 
-    @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int i, int i1, float v) {
-
-    }
-
     public Coord2d getMousePosition()
     {
       final Window win = mc_.getWindow();
@@ -213,10 +211,10 @@ public class Guis
     public UiWidget hide()
     { visible = false; return this; }
 
-
-    public void renderButton(GuiGraphics mxs, int mouseX, int mouseY, float partialTicks)
+    @Override
+    public void renderWidget(GuiGraphics mxs, int mouseX, int mouseY, float partialTicks)
     {
-      //super.renderButton(mxs, mouseX, mouseY, partialTicks);
+      //super.renderWidget(mxs, mouseX, mouseY, partialTicks);
       if(isHovered) renderToolTip(mxs, mouseX, mouseY);
     }
 
@@ -280,26 +278,22 @@ public class Guis
     public void playDownSound(SoundManager handler)
     {}
 
-
-    protected void renderBg(PoseStack mx, Minecraft mc, int x, int y)
-    {}
-
     @Override
-    public void renderButton(GuiGraphics mxs, int mouseX, int mouseY, float partialTicks)
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
     {
       RenderSystem.setShaderTexture(0, atlas_);
       RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
       RenderSystem.enableBlend();
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableDepthTest();
-      //blit(mxs, this.getX(), this.getY(), texture_position_base_.x, texture_position_base_.y, width, height);
-      mxs.blit(atlas_,this.getX(), this.getY(), texture_position_base_.x, texture_position_base_.y, width, height);
+      guiGraphics.blit(atlas_, this.getX(), this.getY(), texture_position_base_.x, texture_position_base_.y, width, height);
+      guiGraphics.blit(atlas_,this.getX(), this.getY(), texture_position_base_.x, texture_position_base_.y, width, height);
       if((progress_max_ > 0) && (progress_ > 0)) {
         int w = Mth.clamp((int)Math.round((progress_ * width) / progress_max_), 0, width);
-        //blit(mxs, this.getX(), this.getY(), texture_position_filled_.x, texture_position_filled_.y, w, height);
+        guiGraphics.blit(atlas_, this.getX(), this.getY(), texture_position_filled_.x, texture_position_filled_.y, w, height);
       }
 
-      if(isHovered) renderToolTip(mxs, mouseX, mouseY);
+      if(isHovered) renderToolTip(guiGraphics, mouseX, mouseY);
     }
   }
 
@@ -319,11 +313,11 @@ public class Guis
       this.height = height;
       visible = true;
     }
-    public void draw(GuiGraphics mx, Screen parent)
+    public void draw(GuiGraphics guiGraphics, Screen parent)
     {
       if(!visible) return;
       RenderSystem.setShaderTexture(0, atlas_);
-      //parent.blit(mx, this.getX(), this.getY(), atlas_position_.x, atlas_position_.y, width, height);
+      guiGraphics.blit(atlas_, this.getX(), this.getY(), atlas_position_.x, atlas_position_.y, width, height);
     }
   }
 
@@ -359,7 +353,7 @@ public class Guis
 
 
     @Override
-    public void renderButton(GuiGraphics mxs, int mouseX, int mouseY, float partialTicks)
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
     {
       RenderSystem.setShader(GameRenderer::getPositionTexShader);
       RenderSystem.setShaderTexture(0, atlas_);
@@ -368,8 +362,8 @@ public class Guis
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableDepthTest();
       Coord2d pos = checked_ ? texture_position_on_ : texture_position_off_;
-      //blit(mxs, x, y, pos.x, pos.y, width, height);
-      if(isHovered) renderToolTip(mxs, mouseX, mouseY);
+      guiGraphics.blit(atlas_, getX(), getY(), pos.x, pos.y, width, height);
+      if(isHovered) renderToolTip(guiGraphics, mouseX, mouseY);
     }
   }
 
@@ -396,7 +390,7 @@ public class Guis
     { on_click_.accept(this); }
 
     @Override
-    public void renderButton(GuiGraphics mxs, int mouseX, int mouseY, float partialTicks)
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
     {
       RenderSystem.setShader(GameRenderer::getPositionTexShader);
       RenderSystem.setShaderTexture(0, atlas_);
@@ -405,8 +399,8 @@ public class Guis
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableDepthTest();
       Coord2d pos = texture_position_;
-      //blit(mxs, x, y, pos.x, pos.y, width, height);
-      if(isHovered) renderToolTip(mxs, mouseX, mouseY);
+      guiGraphics.blit(atlas_, getX(), getY(), pos.x, pos.y, width, height);
+      if(isHovered) renderToolTip(guiGraphics, mouseX, mouseY);
     }
   }
 
@@ -428,7 +422,7 @@ public class Guis
     {}
 
     @Override
-    public void renderButton(GuiGraphics mxs, int mouseX, int mouseY, float partialTicks)
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
     {
       RenderSystem.setShader(GameRenderer::getPositionTexShader);
       RenderSystem.setShaderTexture(0, atlas_);
@@ -437,8 +431,8 @@ public class Guis
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableDepthTest();
       Coord2d pos = texture_position_;
-      //blit(mxs, x, y, pos.x, pos.y, width, height);
-      if(isHovered) renderToolTip(mxs, mouseX, mouseY);
+      guiGraphics.blit(atlas_, getX(), getY(), pos.x, pos.y, width, height);
+      if(isHovered) renderToolTip(guiGraphics, mouseX, mouseY);
     }
   }
 
