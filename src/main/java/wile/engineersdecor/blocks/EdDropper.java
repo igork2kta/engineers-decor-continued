@@ -176,6 +176,7 @@ public class EdDropper
       ((DropperTileEntity)te).block_updated();
     }
 
+
     @Override
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
@@ -797,12 +798,7 @@ public class EdDropper
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
-
-    }
-
-    @Override
-    protected void renderBgWidgets(PoseStack mx, float partialTicks, int mouseX, int mouseY)
+    protected void renderBgWidgets(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY)
     {
       final int x0=getGuiLeft(), y0=getGuiTop(), w=getXSize(), h=getYSize();
       DropperUiContainer container = getMenu();
@@ -812,14 +808,14 @@ public class EdDropper
         if((drop_slot_index < 0) || (drop_slot_index >= 16)) drop_slot_index = 0;
         int x = (x0+9+((drop_slot_index % 6) * 18));
         int y = (y0+5+((drop_slot_index / 6) * 17));
-        //blit(mx, x, y, 180, 45, 18, 18);
+        guiGraphics.blit(background_image_, x, y, 180, 45, 18, 18);
       }
       // filter LEDs
       {
         for(int i=0; i<3; ++i) {
           int xt = 180 + (6 * container.field(12+i)), yt = 38;
           int x = x0 + 31 + (i * 36), y = y0 + 65;
-          //blit(mx, x, y, xt, yt, 6, 6);
+          guiGraphics.blit(background_image_, x, y, xt, yt, 6, 6);
         }
       }
       // force adjustment
@@ -827,31 +823,31 @@ public class EdDropper
         int hy = 2 + (((100-container.field(0)) * 21) / 100);
         int x = x0+135, y = y0+12, xt = 181;
         int yt = 4 + (23-hy);
-        //blit(mx, x, y, xt, yt, 3, hy);
+        guiGraphics.blit(background_image_, x, y, xt, yt, 3, hy);
       }
       // angle adjustment
       {
         int x = x0 + 157 - 3 + ((container.field(1) * 12) / 100);
         int y = y0 +  22 - 3 - ((container.field(2) * 12) / 100);
-        //blit(mx, x, y, 180, 30, 7, 7);
+        guiGraphics.blit(background_image_, x, y, 180, 30, 7, 7);
       }
       // drop count
       {
         int x = x0 + 134 - 2 + (container.field(4));
         int y = y0 + 45;
-        //blit(mx, x, y, 190, 31, 5, 5);
+        guiGraphics.blit(background_image_, x, y, 190, 31, 5, 5);
       }
       // drop period
       {
         int px = (int)Math.round(((33.0 * container.field(6)) / 100) + 1);
         int x = x0 + 134 - 2 + Mth.clamp(px, 0, 33);
         int y = y0 + 56;
-        //blit(mx, x, y, 190, 31, 5, 5);
+        guiGraphics.blit(background_image_, x, y, 190, 31, 5, 5);
       }
       // redstone input
       {
         if(container.field(11) != 0) {
-          //blit(mx, x0+114, y0+51, 189, 18, 9, 9);
+          guiGraphics.blit(background_image_, x0+114, y0+51, 189, 18, 9, 9);
         }
       }
       // trigger logic
@@ -861,14 +857,14 @@ public class EdDropper
         int pulse_mode_offset  = ((logic & DropperTileEntity.DROPLOGIC_CONTINUOUS    ) != 0) ? 10 : 0;
         int extern_gate_offset_x = ((logic & DropperTileEntity.DROPLOGIC_EXTERN_ANDGATE) != 0) ? 11 : 0;
         int extern_gate_offset_y = ((logic & DropperTileEntity.DROPLOGIC_IGNORE_EXT) != 0) ? 10 : 0;
-        //blit(mx, x0+132, y0+66, 179+filter_gate_offset, 66, 9, 9);
-        //blit(mx, x0+148, y0+66, 179+extern_gate_offset_x, 66+extern_gate_offset_y, 9, 9);
-        //blit(mx, x0+162, y0+66, 200+pulse_mode_offset, 66, 9, 9);
+        guiGraphics.blit(background_image_, x0+132, y0+66, 179+filter_gate_offset, 66, 9, 9);
+        guiGraphics.blit(background_image_, x0+148, y0+66, 179+extern_gate_offset_x, 66+extern_gate_offset_y, 9, 9);
+        guiGraphics.blit(background_image_, x0+162, y0+66, 200+pulse_mode_offset, 66, 9, 9);
       }
       // drop timer running indicator
       {
         if((container.field(9) > DropperTileEntity.DROP_PERIOD_OFFSET) && ((System.currentTimeMillis() % 1000) < 500)) {
-          //blit(mx, x0+149, y0+51, 201, 39, 3, 3);
+          guiGraphics.blit(background_image_, x0+149, y0+51, 201, 39, 3, 3);
         }
       }
     }
