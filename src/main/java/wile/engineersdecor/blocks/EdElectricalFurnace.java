@@ -48,6 +48,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.extensions.IForgeBlock;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -119,6 +120,7 @@ public class EdElectricalFurnace
 
     public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side)
     { return false; }
+
 
     @Override
     @SuppressWarnings("deprecation")
@@ -870,31 +872,26 @@ public class EdElectricalFurnace
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
-
-    }
-
-    @Override
-    protected void renderBgWidgets(PoseStack mx, float partialTicks, int mouseX, int mouseY)
+    protected void renderBgWidgets(GuiGraphics mx, float partialTicks, int mouseX, int mouseY)
     {
       final int x0=leftPos, y0=topPos, w=imageWidth, h=imageHeight;
-      //blit(mx, x0, y0, 0, 0, w, h);
+      mx.blit(background_image_, x0, y0, 0, 0, w, h);
       if(getMenu().field(6)!=0)  {
         final int hi = 13;
         final int k = heat_px(hi);
-        //blit(mx, x0+62, y0+55+hi-k, 177, hi-k, 13, k);
+        mx.blit(background_image_, x0+62, y0+55+hi-k, 177, hi-k, 13, k);
       }
-      //blit(mx, x0+79, y0+30, 176, 15, 1+progress_px(17), 15);
+      mx.blit(background_image_, x0+79, y0+30, 176, 15, 1+progress_px(17), 15);
       int we = energy_px(32, 8);
-      //if(we>0) blit(mx, x0+90, y0+54, 185, 30, we, 13);
-      /*
+      if(we>0) mx.blit(background_image_, x0+90, y0+54, 185, 30, we, 13);
+
       switch(getMenu().field(4)) {
-        case 0 -> blit(mx, x0 + 144, y0 + 57, 180, 57, 6, 9);
-        case 1 -> blit(mx, x0 + 142, y0 + 58, 190, 58, 9, 6);
-        case 2 -> blit(mx, x0 + 144, y0 + 56, 200, 57, 6, 9);
-        case 3 -> blit(mx, x0 + 143, y0 + 58, 210, 58, 9, 6);
+        case 0 -> mx.blit(background_image_, x0 + 144, y0 + 57, 180, 57, 6, 9);
+        case 1 -> mx.blit(background_image_, x0 + 142, y0 + 58, 190, 58, 9, 6);
+        case 2 -> mx.blit(background_image_, x0 + 144, y0 + 56, 200, 57, 6, 9);
+        case 3 -> mx.blit(background_image_, x0 + 143, y0 + 58, 210, 58, 9, 6);
       }
-      */
+
 
     }
 

@@ -71,6 +71,7 @@ public class EdCornerOrnamentedBlock extends StandardBlocks.Directed
     }
   }
 
+
   @Override
   public boolean shouldCheckWeakPower(BlockState state, LevelReader world, BlockPos pos, Direction side) {
     return false;

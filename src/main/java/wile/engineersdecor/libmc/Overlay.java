@@ -11,6 +11,7 @@ package wile.engineersdecor.libmc;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -103,8 +104,9 @@ public class Overlay
     TextOverlayGui()
     { super(Component.literal("")); }
 
-    /*
-    public void onRenderGui(final com.mojang.blaze3d.vertex.PoseStack mxs)
+
+
+    public void onRenderGui(final GuiGraphics mxs)
     {
       if(deadline() < System.currentTimeMillis()) return;
       if(text()==EMPTY_TEXT) return;
@@ -118,14 +120,14 @@ public class Overlay
       final int cy = (int)(win.getGuiScaledHeight() * overlay_y_);
       final int w = fr.width(txt);
       final int h = fr.lineHeight;
-      fillGradient(mxs, cx-(w/2)-3, cy-2, cx+(w/2)+2, cy+h+2, 0xaa333333, 0xaa444444);
-      hLine(mxs, cx-(w/2)-3, cx+(w/2)+2, cy-2, 0xaa333333);
-      hLine(mxs, cx-(w/2)-3, cx+(w/2)+2, cy+h+2, 0xaa333333);
-      vLine(mxs, cx-(w/2)-3, cy-2, cy+h+2, 0xaa333333);
-      vLine(mxs, cx+(w/2)+2, cy-2, cy+h+2, 0xaa333333);
-      drawCenteredString(mxs, fr, text(), cx , cy+1, 0x00ffaa00);
+      mxs.fillGradient(cx-(w/2)-3, cy-2, cx+(w/2)+2, cy+h+2, 0xaa333333, 0xaa444444);
+      mxs.hLine(cx-(w/2)-3, cx+(w/2)+2, cy-2, 0xaa333333);
+      mxs.hLine(cx-(w/2)-3, cx+(w/2)+2, cy+h+2, 0xaa333333);
+      mxs.vLine(cx-(w/2)-3, cy-2, cy+h+2, 0xaa333333);
+      mxs.vLine(cx+(w/2)+2, cy-2, cy+h+2, 0xaa333333);
+      mxs.drawCenteredString(fr, text(), cx , cy+1, 0x00ffaa00);
     }
-  */
+
     @SuppressWarnings("deprecation")
     public void onRenderWorldOverlay(final com.mojang.blaze3d.vertex.PoseStack mxs, final double partialTick)
     {

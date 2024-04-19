@@ -876,20 +876,16 @@ public class EdFurnace
     { super(container, player_inventory, title, "textures/gui/small_lab_furnace_gui.png"); }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
-
-    }
-
-    @Override
-    protected void renderBgWidgets(PoseStack mx, float partialTicks, int mouseX, int mouseY)
+    protected void renderBgWidgets(GuiGraphics mx, float partialTicks, int mouseX, int mouseY)
     {
       final int x0=leftPos, y0=topPos, w=imageWidth, h=imageHeight;
       if(getMenu().field(4) != 0) {
         final int k = flame_px(13);
-        //blit(mx, x0+59, y0+36+12-k, 176, 12-k, 14, k+1);
+        mx.blit(background_image_, x0+59, y0+36+12-k, 176, 12-k, 14, k+1);
       }
-      //blit(mx, x0+79, y0+36, 176, 15, 1+progress_px(17), 15);
+      mx.blit(background_image_, x0+79, y0+36, 176, 15, 1+progress_px(17), 15);
     }
+
 
     private int progress_px(int pixels)
     { final int tc=getMenu().field(2), T=getMenu().field(3); return ((T>0) && (tc>0)) ? (tc * pixels / T) : (0); }

@@ -22,8 +22,8 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -39,9 +39,9 @@ public class Networking
   public static void init(String modid)
   {
     DEFAULT_CHANNEL = NetworkRegistry.ChannelBuilder
-      .named(new ResourceLocation(modid, "default_ch"))
-      .clientAcceptedVersions(PROTOCOL::equals).serverAcceptedVersions(PROTOCOL::equals).networkProtocolVersion(() -> PROTOCOL)
-      .simpleChannel();
+            .named(new ResourceLocation(modid, "default_ch"))
+            .clientAcceptedVersions(PROTOCOL::equals).serverAcceptedVersions(PROTOCOL::equals).networkProtocolVersion(() -> PROTOCOL)
+            .simpleChannel();
     int discr = -1;
     DEFAULT_CHANNEL.registerMessage(++discr, PacketTileNotifyClientToServer.class, PacketTileNotifyClientToServer::compose, PacketTileNotifyClientToServer::parse, PacketTileNotifyClientToServer.Handler::handle);
     DEFAULT_CHANNEL.registerMessage(++discr, PacketTileNotifyServerToClient.class, PacketTileNotifyServerToClient::compose, PacketTileNotifyServerToClient::parse, PacketTileNotifyServerToClient.Handler::handle);
@@ -50,6 +50,7 @@ public class Networking
     DEFAULT_CHANNEL.registerMessage(++discr, PacketNbtNotifyClientToServer.class, PacketNbtNotifyClientToServer::compose, PacketNbtNotifyClientToServer::parse, PacketNbtNotifyClientToServer.Handler::handle);
     DEFAULT_CHANNEL.registerMessage(++discr, PacketNbtNotifyServerToClient.class, PacketNbtNotifyServerToClient::compose, PacketNbtNotifyServerToClient::parse, PacketNbtNotifyServerToClient.Handler::handle);
     DEFAULT_CHANNEL.registerMessage(++discr, OverlayTextMessage.class, OverlayTextMessage::compose, OverlayTextMessage::parse, OverlayTextMessage.Handler::handle);
+
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -383,5 +384,7 @@ public class Networking
       }
     }
   }
+
+
 
 }

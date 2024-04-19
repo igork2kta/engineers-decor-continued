@@ -13,6 +13,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
@@ -77,17 +78,18 @@ public class Guis
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
     {
+      renderBackground(guiGraphics);
       super.render(guiGraphics, mouseX, mouseY, partialTicks);
-      renderTooltip(guiGraphics, mouseX, mouseY);
+      if(!tooltip_.render(guiGraphics, mouseX, mouseY)) renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
+    @Override
+    protected void renderLabels(GuiGraphics mx, int x, int y)
+    {}
     @Override
     @SuppressWarnings("deprecation")
     protected final void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY)
     {
-      renderBackground(guiGraphics);
-      guiGraphics.blit(background_image_, this.leftPos, this.topPos, 0,0, this.imageWidth, this.imageHeight );
-
       RenderSystem.setShader(GameRenderer::getPositionTexShader);
       RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
       RenderSystem.enableBlend();
@@ -96,14 +98,7 @@ public class Guis
       gui_background_.draw(guiGraphics, this);
       renderBgWidgets(guiGraphics, partialTicks, mouseX, mouseY);
       RenderSystem.disableBlend();
-
     }
-
-
-    @Override
-    protected void renderLabels(GuiGraphics mx, int x, int y)
-    {}
-
     public final ResourceLocation getBackgroundImage()
     { return background_image_; }
 
@@ -112,25 +107,25 @@ public class Guis
 
     protected void renderItemTemplate(GuiGraphics guiGraphics, ItemStack stack, int x, int y)
     {
-      /*
-      final ItemRenderer ir = mx.item;
-      final int main_zl = mx.getBlitOffset();
-      final float zl = ir.blitOffset;
+
+      //final ItemRenderer ir = mx.item;
+      //final int main_zl = mx.getBlitOffset();
+      //final float zl = ir.blitOffset;
       final int x0 = getGuiLeft();
       final int y0 = getGuiTop();
-      ir.blitOffset = -80;
-      ir.renderGuiItem(stack, x0+x, y0+y);
+      //ir.blitOffset = -80;
+      //ir.renderGuiItem(stack, x0+x, y0+y);
       RenderSystem.disableColorLogicOp(); //RenderSystem.disableColorMaterial();
       RenderSystem.enableDepthTest(); //RenderSystem.enableAlphaTest();'
       RenderSystem.defaultBlendFunc();
       RenderSystem.enableBlend();
-      ir.blitOffset = zl;
-      setBlitOffset(100);
-      */
+      //ir.blitOffset = zl;
+      //setBlitOffset(100);
+
       RenderSystem.colorMask(true, true, true, true);
       RenderSystem.setShaderColor(0.7f, 0.7f, 0.7f, 0.8f);
       RenderSystem.setShaderTexture(0, background_image_);
-      //blit(mx, x0+x, y0+y, x, y, 16, 16);
+      //guiGraphics.blit(x0+x, y0+y, x, y, 16, 16);
       RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
       //setBlitOffset(main_zl);
     }
@@ -151,6 +146,7 @@ public class Guis
     public static Coord2d of(int x, int y) { return new Coord2d(x,y); }
     public String toString() { return "["+x+","+y+"]"; }
   }
+
 
   @OnlyIn(Dist.CLIENT)
   public static class UiWidget extends net.minecraft.client.gui.components.AbstractWidget
@@ -232,7 +228,9 @@ public class Guis
     @Override
     public void updateNarration(NarrationElementOutput element_output)
     {}
-    */
+
+     */
+
     @Override
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 
@@ -277,6 +275,13 @@ public class Guis
     @Override
     public void playDownSound(SoundManager handler)
     {}
+
+  /*
+    @Override
+    protected void renderBg(GuiGraphics var1, float var2, int var3, int var4)
+    {}
+*/
+
 
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)

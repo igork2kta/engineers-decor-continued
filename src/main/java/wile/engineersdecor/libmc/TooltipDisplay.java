@@ -10,6 +10,7 @@
 package wile.engineersdecor.libmc;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.*;
@@ -85,7 +86,7 @@ public class TooltipDisplay
   public void resetTimer()
   { t = System.currentTimeMillis(); }
 
-  public <T extends AbstractContainerMenu> boolean render(GuiGraphics mx, final AbstractContainerScreen<T> gui, int x, int y)
+  public <T extends AbstractContainerMenu> boolean render(GuiGraphics mx, int x, int y)
   {
     if(had_render_exception) return false;
     if((Math.abs(x-x_last) > max_deviation) || (Math.abs(y-y_last) > max_deviation)) {
@@ -101,7 +102,8 @@ public class TooltipDisplay
               String text = tip.text.get().toString();
               if(text.isEmpty()) return false;
               try {
-                //gui.renderComponentTooltip(mx, tip.text.get().toFlatList(Style.EMPTY), x, y);
+
+                mx.renderComponentTooltip(Minecraft.getInstance().font, tip.text.get().toFlatList(Style.EMPTY), x, y);
               } catch(Exception ex) {
                 had_render_exception = true;
                 Auxiliaries.logError("Tooltip rendering disabled due to exception: '" + ex.getMessage() + "'");

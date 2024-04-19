@@ -89,11 +89,11 @@ public class ModEngineersDecor
   @Mod.EventBusSubscriber(Dist.CLIENT)
   public static class ForgeClientEvents
   {
-    /*
+
     @SubscribeEvent
     public static void onRenderGui(net.minecraftforge.client.event.RenderGuiOverlayEvent.Post event)
-    { Overlay.TextOverlayGui.INSTANCE.onRenderGui(event.getPoseStack()); }
-    */
+    { Overlay.TextOverlayGui.INSTANCE.onRenderGui(event.getGuiGraphics()); }
+
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onRenderWorldOverlay(net.minecraftforge.client.event.RenderLevelStageEvent event)

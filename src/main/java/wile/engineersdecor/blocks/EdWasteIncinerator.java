@@ -478,10 +478,6 @@ public class EdWasteIncinerator
     public WasteIncineratorGui(WasteIncineratorContainer container, Inventory player_inventory, Component title)
     { super(container, player_inventory, title, "textures/gui/small_waste_incinerator_gui.png"); }
 
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
-      
-    }
   }
 
 }
