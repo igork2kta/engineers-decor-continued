@@ -40,6 +40,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -140,10 +141,9 @@ public class StandardBlocks
       super.onRemove(state, world, pos, newState, isMoving);
       if(rsup) world.updateNeighbourForOutputSignal(pos, this);
     }
-/*
+
     @Override
-    @SuppressWarnings("deprecation")
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder)
     {
       final ServerLevel world = builder.getLevel();
       final Float explosion_radius = builder.getOptionalParameter(LootContextParams.EXPLOSION_RADIUS);
@@ -151,7 +151,8 @@ public class StandardBlocks
       if((!hasDynamicDropList()) || (world==null)) return super.getDrops(state, builder);
       boolean is_explosion = (explosion_radius!=null) && (explosion_radius > 0);
       return dropList(state, world, te, is_explosion);
-    }*/
+    }
+
 
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos)
@@ -225,11 +226,11 @@ public class StandardBlocks
       return state;
     }
 
-    /*
+
     @Override
-    public boolean isPossibleToRespawnInThis()
+    public boolean isPossibleToRespawnInThis(BlockState state)
     { return false; }
-*/
+
     @Override
     @SuppressWarnings("deprecation")
     public PushReaction getPistonPushReaction(BlockState state)
@@ -320,11 +321,11 @@ public class StandardBlocks
 
     public Directed(long config, BlockBehaviour.Properties properties, final AABB unrotatedAABB)
     { this(config, properties, new AABB[]{unrotatedAABB}); }
-/*
+
     @Override
-    public boolean isPossibleToRespawnInThis()
+    public boolean isPossibleToRespawnInThis(BlockState state)
     { return false; }
-*/
+
     @Override
     public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
     { return false; }
@@ -391,11 +392,11 @@ public class StandardBlocks
     public AxisAligned(long config, BlockBehaviour.Properties properties, final AABB unrotatedAABB)
     { this(config, properties, new AABB[]{unrotatedAABB}); }
 
-    /*
+
     @Override
-    public boolean isPossibleToRespawnInThis()
+    public boolean isPossibleToRespawnInThis(BlockState state)
     { return false; }
-*/
+
     @Override
     public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
     { return false; }

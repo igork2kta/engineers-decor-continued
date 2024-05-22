@@ -152,8 +152,14 @@ public static void addCreativeTab(){
 
   public static <T extends Block> void addBlock(String registry_name, Supplier<T> block_supplier)
   {
-    registered_blocks.put(registry_name, BLOCKS.register(registry_name, block_supplier));
-    registered_items.put(registry_name, ITEMS.register(registry_name, ()->new BlockItem(registered_blocks.get(registry_name).get(), new Item.Properties())));
+      registered_blocks.put(registry_name, BLOCKS.register(registry_name, block_supplier));
+      registered_items.put(registry_name, ITEMS.register(registry_name, () -> new BlockItem(registered_blocks.get(registry_name).get(), new Item.Properties())));
+  }
+
+  public static <T extends Block> void regist(String registry_name, Supplier<T> block_supplier)
+  {
+    RegistryObject<T> toReturn =  BLOCKS.register(registry_name, block_supplier);
+    ITEMS.register(registry_name, () -> new BlockItem(toReturn.get(), new Item.Properties()));
   }
 
   public static <TB extends Block, TI extends Item> void addBlock(String registry_name, Supplier<TB> block_supplier, Supplier<TI> item_supplier)

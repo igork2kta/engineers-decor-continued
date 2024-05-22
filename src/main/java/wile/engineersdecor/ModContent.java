@@ -31,6 +31,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -83,11 +85,13 @@ public class ModContent
   public static void initBlocks()
   {
 
+
     Registries.addBlock("clinker_brick_block", ()->new StandardBlocks.BaseBlock(
-      StandardBlocks.CFG_DEFAULT,
-      BlockBehaviour.Properties.copy(Blocks.STONE)
+            StandardBlocks.CFG_DEFAULT,
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(1.5F, 6.0F)
     ));
-        Registries.addBlock("clinker_brick_slab", ()->new VariantSlabBlock(
+
+    Registries.addBlock("clinker_brick_slab", ()->new VariantSlabBlock(
       StandardBlocks.CFG_DEFAULT,
       BlockBehaviour.Properties.copy(Blocks.STONE)
     ));
@@ -969,7 +973,7 @@ public class ModContent
 
   public static void initItems()
   {
-    //Registries.addItem("metal_bar", ()->new EdItem((new Item.Properties()).tab(Registries.getCreativeModeTab())));
+    Registries.addItem("metal_bar", ()->new EdItem((new Item.Properties())));
 
   }
 
