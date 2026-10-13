@@ -1,228 +1,274 @@
 
-## Engineer's Decor (MC1.18.x)
+## Engineer's Decor (Unofficial Community Ports)
 
-Mod sources for Minecraft version 1.18.x.
+> [!NOTE]
+> **This repository contains unofficial community ports of Engineer's Decor for modern Minecraft versions:**
+> - **1.21.1** ([NeoForge](https://neoforged.net/)) — *Branch: `1.21.1-neoforge`*
+> - **1.20.1** ([Forge](https://minecraftforge.net/)) — *Branch: `1.20.1-forge`*
+> 
+> - **Original Author & Mod Creator:** [Stefan Wilhelm (stfwi / WilE)](https://github.com/stfwi)
+> - **Original Repository:** [github.com/stfwi/engineers-decor](https://github.com/stfwi/engineers-decor)
+> - **Original CurseForge:** [curseforge.com/minecraft/mc-mods/engineers-decor](https://minecraft.curseforge.com/projects/engineers-decor)
+> - **Original Modrinth:** [modrinth.com/mod/engineersdecor](https://modrinth.com/mod/engineersdecor)
+> - **License:** [MIT License](LICENSE) (All original assets, designs, and code belong to their respective creators).
+> 
+> *Please do **NOT** report issues regarding these ports to the original author. Report all issues directly to this fork's issue tracker.*
 
-- Description, credits, and features: Please see the readme in the repository root.
+---
 
-- Compiled mod distribution channel is curseforge: https://www.curseforge.com/minecraft/mc-mods/engineers-decor/files.
+A [Minecraft](https://minecraft.net) (Java Edition) mod adding cosmetic blocks and practical devices for the Engineer's factory, workshop, and home. Works standalone or alongside tech mods like Immersive Engineering.
+
+---
 
 ----
+### Details
 
-## Version history
+The mod has its focus decorative blocks and devices helping you to build nice
+looking manufacturing contraptions. Current feature set:
 
-    - v1.3.29    [F] Fenced config opt-out processing with exception handling in case config
-                     apply is called before registry events have finished.
+- *Metal Crafting Table*: 3x3 crafting table with IE style GUI and a model
+  fitting better in the engineer's workshop. Keeps its inventory, has eight additional
+  storage slots on the left side of the crafting grid. Crafting history for fast
+  refabrication of previous recipes. Providesa a recipe collision resolver (selection
+  button for ambiguous recipes). Quick-move buttons (opt-in) to from/to storage or
+  player inventory. Smart shift-click placement (balanced placing of items in the
+  crafting grid). Ctrl-Shift-click places all same stacks. Scroll with the mouse over
+  the crafting output slot to increase or decrease the stack sizes (shift and/or ctrl
+  higher step size). Shows the placed items on the top of the table.
 
-    - v1.3.28    [F] Steel Mesh Fence help typo fixed (issue #227, ty shrad).
-                 [A] Added "tree_cutter_universal_logs" server config to enable chopping of modded
-                     resource wood blocks (e.g. rubber, issue #228).
+- *Labeled Crate*: A storage crate with 9x6 slots and a built-in item frame. As known
+  from IE Crates it keeps its inventory when broken.
 
-    - v1.3.27    [F] Refactored deprecated forge capability references.
-                 [F] Fixed Factory Hopper on-break item retention bug (issue #226, ty sunekaer/ftb).
+- *Small Laboratory Furnace*: Solid fuel consuming, updraught. Slightly hotter and
+  better isolated than a cobblestone furnace, therefore more efficient. Has internal
+  hopper FiFos for input, output, and fuel (two stacks each). Two auxilliary slots
+  (storage tray). Keeps inventory when relocated. Can be boosted with RF power when
+  a IE heater is placed in the furnace.
 
-    - v1.3.26    [U] Ported to 1.19.2.
-                 [F] Fixed Mineral Melting Furnace fluid extraction (issue #223, ty adkinss).
+- *Small Electrical Furnace*: Pass-through electrical furnace. Can pull items out of
+  inventories at the input side, inserts items into inventories at the output side.
+  Internal fifo slots. Automatically bypasses items that cannot be cooked or smelted.
+  Electrical RF/FE power can be applied on all sides. Items can be inserted or drawn
+  from all sides (e.g. with filtered hopper or whatever). Fits ideally into a conveyor
+  belt line/lane. Consumption and efficiency tunable via config.
 
-    - v1.2.25    [U] Ported to 1.19.1.
+- *Factory Dropper*: Dropper with GUI configurable drop force, direction, stack size,
+  trigger cool-down delay, and trigger logic. Three trigger slots ("filter slots") can
+  be used as internal trigger. They emit an internal signal if their item is found in
+  in the dropper inventory (also at least the stack size of a trigger slot). Internal
+  triggers can be easily combined with the external redstone signal trigger using
+  logical *AND* or *OR* gates. If internal triggers match, the dropper will spit out
+  exactly the stacks in these slots. That allows to drop e.g. always nine Lapis,
+  Redstone, nuggets, etc on a conveyor to feed a compression metal press - instantly
+  and automatically after nine of these items have been inserted into the dropper.
+  Provides redstone pulse mode (drop like a vanilla dropper) or continuous mode
+  (continue dropping as long as the redstone signal is on).
 
-    - v1.1.24    [U] Forge updated to 1.19-41.1.0.
-                 [B] Known issue: JEI integration missing.
+- *Factory Hopper*: Hopper with configurable stack transfer size (1 to 32), transfer
+  delay, and collection range (default like hopper, area max 9x9). Can also be placed
+  upwards. Has 24 slots, keeps its inventory when being broken and relocated. Tries
+  to insert smartly, so that existing stacks in the target inventory are filled up first
+  before empty slots are used. The redstone signal polarity can be inverted to enable
+  the hopper instead of blocking it, and the reaction to redstone signal can be selected
+  between "continuous" (like the vanilla hopper) or "pulsed" (means "edge detection",
+  insertion like a dispenser or dropper). Default behaviour when placing is vanilla
+  hopper behaviour. Note that, when collecting items, it waits until the items are
+  allowed to be picked up and on the ground. This prevents that the hopper snatches
+  blocks that you break when building before you can pick them up yourself.
 
-    - v1.1.24-b1 [U] Initial 1.19 port.
-                 [D] Metal/Treated Wood Crafting Table dropped in favour of IE Engineer's Crafting Table.
-                 [D] Labeled Crate dropped.
-                 [D] Obsolete wood blocks dropped.
+- *Factory Block Placer*: Places blocks or plants crops/saplings in front of it.
+  Supports spike planting, means it can plant e.g. from underneath the soil block.
+  Automatically spits out items that it cannot plant or place. Can be redstone
+  controlled similar to the Factory Hopper (invertible, pulse/continuous mode).
 
-    - v1.1.23    [R] Release build.
-                 [F] Updated Forge and re-enabled JSON tags (issue #217, ty snarkbait66).
+- *Small Block Braker*: Breaks blocks in front of it. Can be disabled by applying a
+  redstone signal. The time needed to destroy a block depends on the hardness of
+  that block. Provide RF/FE power to speed up the breaking process (massively).
 
-    - v1.1.23-b1 [A] Added ability to install inset lights in top-aligned catwalks (PR#215, Sergii).
-                 [A] Iron Hatch improved (PR#216, Sergii).
+- *Small Waste Incinerator*: Buffered and delayed item disposal device. 16 fifo
+  slots are filled when new items are pushed in from any side. A GUI allows to
+  take out accidentally trashed items or put in items to get rid of. When the fifo
+  is full, the oldest stack will be disposed. The processing speed can be increased
+  by connecting electrical RF/FE power.
 
-    - v1.1.22    [R] Release build v1.1.22.
-                 [M] Factory Dropper stack size ignored for un-stackable items (issue #209, ty LesBeans).
+- *Clinker Bricks*: Slightly darker and more colorful version of the vanilla brick
+  block. Eight position dependent texture variations are implemented to make the
+  wall look more "alive". Slightly higher crafting yield than making vanilla bricks.
+  The recipe also allows to craft clinkers from a combination of bricks and nether
+  bricks (actually, anything where the ore dictionary says it's a "brick ingot" -
+  useful for bigger industrial buildings where clay is a rare resource). Higher
+  explosion resistance than the vanilla bricks. Also available as stairs and wall.
+  There is a reverse recipe to get three clinker brick blocks back from stairs or
+  walls. There are also *Stained Clinker Bricks*, which can be mixed in Clinker walls
+  for more variations.
 
-    - v1.1.22-b2 [F] Fixed stairs block reference (issue #207, ty freopt)
+- *Slag Bricks*: Gray-brownish brick, also eight texture variations. Has a higher
+  explosion resistance than bricks. Also available as stairs and wall, also with
+  reverse recipes.
 
-    - v1.1.22-b1 [U] Updated to 1.18.2.
+- *Concrete Wall*: Solid concrete wall (not the vanilla wall design).
 
-    - v1.1.21    [A] Added French translation (PR#203, dracnis).
+- *Rebar Concrete*: Steel reinforced concrete. Expensive, creeper-proof.
+  Texture design oriented at the IE concrete, slightly darker, eight (position
+  dependent) random texture variations with rust traces. Also creaftable in form
+  of *stairs* and *walls*. Like the IE contrete *tiles*, you can craft rebar
+  concrete tiles with corresponding stairs. Reverse recipes available for all
+  blocks crafted from rebar concrete.
 
-    - v1.1.20    [F] Fixed Shingle Roof Wire Conduit collision shape (thx os, issue #202).
-                 [F] Mineral Melter accepts input items only when empty (issue #198, ty Archie).
+- *Gas Concrete*: Decorative concrete with high production yield and low hardness.
+  Random texture variations. Also as *stairs*, *wall*, *slab*, and *slab slice*,
+  reverse recipes available.
 
-    - v1.1.19    [R] Release build.
-                 [F] Manual category RLs prefixed (issue #199, ty freopt).
+- *Ladders*: *Metal Rung Ladder*: Industrial wall-fixed ladder with horizontal bent
+  rods. Climbing is faster if looking up/down and not sneaking. *Staggered Metal Steps*:
+  Industrial wall-fixed sparse ladder with steps in a zip pattern. *Treated Wood Ladder*:
+  Stylish wood ladder, also with faster climbing.
 
-    - v1.1.19-b3 [F] Fixed rendering issue.
+- *Panzer Glass*: Reinforced, dark gray tinted glass block. Explosion-proof. Faint
+  structural lines are visible, multiple texture variations for seemless look.
 
-    - v1.1.19-b2 [F] Fixed waterlogging.
-                 [F] Block entity parent saving corrected, ticker unified.
-                 [U] Forge/gradle update.
+- *Thin and thick Steel Support Poles*: Hollow steel pole fragments, can be placed in all
+  directions. Also with head/food end components.
 
-    - v1.1.19-b1 [U] Initial 1.18.1 port.
+- *Double-T Steel Support*: Horizontal top-aligned support beam, placed in the direction
+  you look. Auto connects to adjacent beams if facing towards them. Auto connects to steel
+  poles underneath. Note: When sneaking you can pass underneath it, not all mobs sneak.
 
-    - v1.1.18    [F] Block Placer placement context issue fix.
-                 [F] Fixed compatibility to Forge >=37.0.82.
-                 [M] Update lang ru_ru (PR#191, Smollet777).
+- *Steel Railings, Catwalks, Catwalk-Stairs*: Railings can be placed on every block with
+  a solid side  and easily be removed by clicking again with a Railing in your hand. There
+  are two craftable versions of Catwalks, top-aligned ("raised") and bottom-aligned (it
+  depends on the situation which one is better). Railings can also be placed on bottom-aligned
+  Catwalks. Right-clicking on the top surface of a Catwalk while holding another Catwalk
+  in your hand places that block horizontally in the direction you are looking (not on top;
+  makes it easier to place raised walkways in your factory - without sneaking and trying to
+  click the rather thin side). Catwalk Stairs have the same feature, except that they are
+  placed one block up or down in front of you when clicking on the top surface while holding
+  another stair in your hand.
 
-    - v1.1.17    [R] Initial 1.17.1 release.
+- *Tables*: *Treated Wood Table*: Four leg table made out of treated wood. *Steel table*:
+  Metal table known from industrial assembly lines or Clean Rooms.
 
-    - v1.1.17-b5 [F] Refurbished Mineral Melter code.
-                 [F] Fixed Block Placer item insertion.
+- *Treated Wood Stool*: Simple small stool fitting to the table. You can sit on it, and
+  also mobs will occationally do that (only mobs which actually can sit).
 
-    - v1.1.17-b4 [F] Config event update fixed.
-                 [F] Milker fluid tank handling issue fixed.
-                 [F] Device collision shapes adapted to allow attaching levers.
+- *Treated Wood Pole*: Pole fragment that can be placed in all directions. It does
+  intentionally not connect to posts, fences, etc - just a straigt pole. Can be used e.g.
+  for structural support or wire relay post, where the height of the IE wire posts does
+  not match.
 
-    - v1.1.17-b3 [F] Fixed Factory Hopper GUI element events.
+- *Industrial Lights and Lamps*: Small metal framed glowstone based light sources for ceiling,
+  wall, or floor. Light level like a torch.
 
-    - v1.1.17-b2 [F] Updated to Forge 1.17.1-37.0.51 to fix `ToolType not found` startup crash.
-                 [A] JEI plugin enabled.
-                 [A] Dark Shingle Roof recipe variant added.
+- *Industrial Signs*: "Danger", "Electrical Hazard", "Exit", etc. Makes a factory looking
+  more alive.
 
-    - v1.1.17-b1 [U] Initial MC 1.17.1 port.
-                 [M] Clinker Brick textures adapted to contemporary MC textures.
-                 [D] Gas Concrete dropped (Rebar Concrete suffices for texture variation).
-                 [D] Treated Wood Side Table dropped.
-                 [M] Updated zh_cn (PR#183, Lyaiya).
+- *Slab Slices*: Decorative stackable thin slabs made of of IE metal sheets, concretes,
+  treated wood. Useful e.g. for roofs or ramps. Left-clicking with the same slab type in
+  your hand while looking up/down removes slices again.
 
-    - v1.1.14    [R] Release build v1.1.14.
+- *Fluid Pipe Check Valve*: IE fluid pipe styled straight valve that conducts fluids only
+  in one direction. Crafted from 3x3 from three fluid pipes. Supports IE pressurized fluid
+  transfer.
 
-    - v1.1.14-b3 [A] Spanish language support added (PR#180, thx FrannDzs).
+- *Redstone Controlled Valves*: Conduct only in one direction, on-off variant (open on redstone
+  power) and analog variant (closed at power 0, linear flow slope, fully open at power 15).
+  Support IE pressurized fluid transfer.
 
-    - v1.1.14-b2 [F] Block Placer: Attempt circumventing external placement prevention.
+- *Passive Fluid Accumulator*: Block with one output and five input sides, that draws fluids
+  out of adjacent tanks when a pump drains fluid from the output port. Implicit round-robin
+  balanced drain from adjacent blocks. Random initial fluid drip-in to allow pumps to detect
+  that fluids can be drained. The accumulator has a vacuum suction delay.
 
-    - v1.1.14-b1 [F] Fixed Fluid Barrel container item definition (issue #178, thx Wormbo).
+- *Small Solar Panel*: Produces a small amount of RF power, comparable to a IE thermal
+  peltier generator over one day cycle. No power at night, reduced power when raining. The
+  power curve during day time is non-linear. Useful for electrical lighting of remote places.
 
-    - v1.1.13    [R] Release build v1.1.13.
-                 [A] Added debug logging feature.
+- *Small Tree Cutter*: A slab sized device that chops a tree in front of it. Needs by default
+  about one minute, with RF power less than 10 seconds. Useful to build a contraptive automated
+  tree farm. Also chops trees of the *Dynamic Trees* mod.
 
-    - v1.1.13-b2 [F] Fixed explosion resistance values for standard blocks.
-                 [F] Sandstone Ornated Clinker loot table fixed (ty czbuendel, Valen).
+- *Small Mineral Smelter*: Device that slowly converts most stones or sands to magma blocks and
+  finally to lava. Needs a lot of power. When the lava is cooled down in the smelter by removing
+  the RF power, obsidian is generated.
 
-    - v1.1.13-b1 [F] Hotfix Electrical Furnace inventory import from Storage Drawers (issue #174, ty anto-fire/IchigoGames).
+- *Small Water Freezer*: Device that slowly converts water into Ice, Packed Ice, and finally
+  Blue Ice. Needs RF power and time.
 
-    - v1.1.12    [F] Chisels&Bits compatibility addressed (issue #172, ty rodg88).
-                 [F] Labeled Crate drop list made stateless (issue #173, ty HopsandBarley && Harmonised).
+- *Fluid Collection Funnel*: Collects fluids above it. Has an internal tank with three buckets
+  capacity. Traces flowing fluids to nearby source blocks. The fluid can be obtained with fluid
+  transfer systems or a bucket. Fills only tanks below (gravity). Compatible with vanilla
+  infinite-water-source creation.
 
-    - v1.1.11    [F] Fixed Window placement dupe (issue #170, ty NillerMedDild).
+- *Small Milking Machine*: Cows don't dislike being groomed and therefore occasionally stroll to
+  this device, which in turn draws a bucket of milk. The milk is stored in an internal tank and
+  can be retrieved directly with a bucket. For automating, the machine can interact with inventories
+  at the back and below it. It preferrs pulling empty vessels from the back and putting the filled
+  containers below, but if there is only one inventory, then it puts the filled containers back into
+  that inventory. Also supports fluid transfer to adjacent tanks (if milk exists as fluid in the
+  game), and is also compatible with the "Bottled Milk" mod (fills vanilla empty bottles).
 
-    - v1.1.10    [A] Added Small Lab Furnace config for accepted speed-boost heaters (PR#165, ty mrh0).
-                 [F] Fixed Labeled Crate mouse scrolling crash (issue #169, ty vaelzan).
 
-    - v1.1.9     [A] Dark Shingle Roof Wire Conduit recipe added.
-                 [F] Fixed Ladder climbing (affects forge>=36.0.45, issue #167, thx ZED).
-
-    - v1.1.8     [F] Crafting Table Output slot sync rework (issue #138).
-                 [A] Dark Shingle Roof Wire Conduit added (CFR#347).
-
-    - v1.1.8-b2  [F] Fixed Iron Hatch isLadder bug (thx jerryw09).
-                 [F] Fixed Block Placer block placing pre-conditions (issue #160, ty XFactHD).
-                 [F] Added explicit scheduled Crafting Table client sync.
-                 [F] Fixed directional waterloggable block default state forwarding (issue #162, ty b52src).
-
-    - v1.1.8-b1  [F] Fluid Funnel waterlogged fluid picking fixed (issue #158, thx ZoMadeStuff).
-                 [F] Roof rendering fixes (issues #153/#159, thx Salamance73/Murph).
-                 [A] Recessed Clinkers, Vertically Slit Clinkers, and Structured Vertical Clinker Slab added.
-
-    - v1.1.7     [M] 1.16.5 support.
-                 [F] Fixed Labeled Crate include (issue #157, ty NillerMedDild).
-
-    - v1.1.6     [F] Added common-config opt-out specification for pack level opt-outs (issue #154,
-                     ty gekkone), will replace server config opt-out in MC1.17.
-
-    - v1.1.6-b3  [M] Config logging edited, E-Furnace GUI capacitor tooltip added, E-Furnace power consumption
-                     independent of config speed setting (issue #152 ty Staegrin).
-
-    - v1.1.6-b2  [M] Alternative Clinker Brick recipe (swapped Bricks/Nether Bricks) added.
-                 [M] Furnace XP handling simplified (simply stores/releases XP for each smelting process).
-                 [M] Mod devices do not propagate strong Redstone power to adjacent blocks.
-                 [M] Minor "librarizing" changes under the hood.
-
-    - v1.1.6-b1  [F] Fixed Metal Crafting Table Hopper access (issue #147, ty umerrr).
-                 [F] Fixed Dark Shingle Roof Chimney placement restriction (issue #149, thx WenXin20).
-                 [F] Door tags added for Wood Door and Metal Sliding Door (issue #150, thx WenXin20).
-                 [A] Electrical Furnace automatically chokes speed and power consumption when the internally
-                     stored power is below 20%.
-
-    - v1.1.5     [R] Release build v1.1.5.
-                 [F] Fixed Crafting Table JEI storage slot count.
-                 [F] Fixed Factory Hopper removed item collection dupe bug (issue #146, thx FatheredPuma81).
-                 [F] Increased device GUI access ranges beyond the player block selection range.
-                 [A] Window placement handling improved.
-                 [M] Steel/Wood Pole and Double-T support placement improved (issue #139, thx Biviho).
-                 [M] Metal Sliding Door bottom/top shape when opened added.
-
-    - v1.1.4     [R] Release build v1.1.4.
-                 [F] Solar Panel balancing threshold tuned.
-                 [F] Fixed Catwalk default state (issue #140, thx hvdklauw).
-                 [M] Updated lang ru_ru file (PR#137, Smollet777).
-                 [M] Factory Dropper: Added Ignore-External-Redstone mode.
-
-    - v1.1.4-b2  [A] Steel Catwalks added (top and bottom aligned).
-                 [A] Steel Railings added.
-                 [F] Fixed Empty Fluid Barrel crafting crash (ty inflamedsebi).
-                 [A] Added Solar Panel power balancing.
-                 [M] GUI Button tooltip delay reduced to 800ms.
-                 [M] Hopper and Placer: Added "Redstone ignored" mode, changed icons from signal-like to Redstone-Torch-like.
-                 [M] Treated Wood Ladder now crafted from Old Industrial Wood, as Treated Wood Sticks now count as normal Sticks.
-
-    - v1.1.4-b1  [U] Ported to 1.16.4.
-
-    - v1.1.3     [R] Release build v1.1.3.
-
-    - v1.1.3-b3  [A] Metal Sliding Door added (double door wing style).
-                 [A] Doors implicitly open/close adjacent wings of double doors.
-                 [A] Disabled injected buttons from other mods in container GUIs.
-                 [A] Mob spawning on Rebar/Gas Concrete inhibited (IE Concrete Compliancy).
-                 [M] Small Tree Cutter chopping improved (loosened tree volume search restrictions).
-
-    - v1.1.3-b2  [A] Crafting table shift/ctrl click item move actions tweaked to new metal slot design.
-                 [A] Factory Dropper and Block Placer now also support quick-move-all (shift-ctrl-click).
-                 [F] Fixed Small Lab Furnace speed boost factor (with IE Heater in aux slot).
-
-    - v1.1.3-b1  [A] The Factory Block Breaker can insert items into Hoppers underneath it (issue #121, winsrp).
-                 [F] Help tooltips manually wrapped.
-                 [F] Fixed Labeled Crate item name persistence (issue #127, ty inqie).
-                 [F] Help text typo fixed (issue #129, ty Smollet777).
-
-    - v1.1.2     [U] Updated to Forge 1.16.3-34.1.0.
-                 [A] Added Factory Hopper insertion/extraction for entities like Minecarts (issue #125, ty boneskull).
-
-    - v1.1.2-b8  [F] Fixed Double-T support thick steel pole connection (thx @CastCrafter).
-                 [A] Concrete and Clinker walls connect to windows and glass panes.
-
-    - v1.1.2-b7  [U] Ported to MC1.16.3.
-                 [F] Roof lighting improved.
-
-    - v1.1.2-b6  [A] Signs added: Generic Caution, Magical Hazard, Radioactive Hazard, Laser Hazard,
-                     Fire Hazard, Caution Hot Surface, Magnetic Field Caution, Frost Warning.
-                 [A] Water Freezer added (generates Ice, Packed Ice, Blue Ice from water).
-                 [F] Mineral Smelter GUI model facing fixed.
-                 [M] Hatch handling improved.
-                 [M] Ladder fast-move improved.
-                 [F] Roof Chimney Trunk shape hollow to allow feeding IE Wire power over the roof into the building.
-                 [A] Roof Chimney added (smoking offset for Dark Shingle Roof Chimney Trunk block).
-                 [A] Metal Bar (ingredient item) added to circumvent recipe collisions with other mods.
-                 [M] Recipes for metallic blocks modified accordingly to depend on Metal Bars.
-
-    - v1.1.2-b5  [A] Sandstone Ornamented Clinker Brick added.
-                 [A] Old Industrial Wood Planks/Stairs/Slabs/Slab Slices added.
-                 [A] Old Industrial Wood Door added.
-                 [M] Wood textures made slightly darker.
-                 [F] Milking Machine fluid transfer re-added (thx gebcrafter).
-                 [F] Fluid Barrel status overlay message format fixed.
-                 [F] Fixed missing Dense Grit Dirt loot table (issue #124, thx vaelzan).
-
-    - v1.1.2-b4  [F] Mapping adaption to Forge 1.16.2-33.0.22/20200723-1.16.1.
-                 [F] Fixed conditional recipe tag dependency (thx Blu, Cyborgmas).
-
-    - v1.1.2-b3  [F] Mapping adaption to Forge 1.16.2-33.0.20.
-
-    - v1.1.2-b2  [A] Dark Shingle Roof added.
-
-    - v1.1.2-b1  [U] Ported to MC1.16.2.
+More to come slowly but steadily.
 
 ----
+### Mod pack integration, forking, back ports, bug reports, testing
+
+  - Packs: If your mod pack ***is open source as well and has no installer***,
+    you don't need to ask and simply integrate this mod. The mod has an extensive
+    configuration allowing you to choose exactly which features you want, and
+    additional tweaks like furni power consumption, smelting speed etc, allow
+    to adapt the mod to the context it is used in.
+
+  - Bug reports: Yes, please let me know. Drop a mail or better open an issue
+    for the repository.
+
+  - Translations: Please translate the 1.12 `lang` files in the branch `1.12`,
+    and the 1.13+ JSON language files in the latest Mincraft version branch.
+
+  - Pull requests: Happily accepted. The branches on the github correspond to
+    the Minecraft versions, normally the latest revision (e.g. branch `1.16`
+    is the latest 1.16.x version, branch `1.12` is 1.12.2).
+    I might merge the pull request locally if I'm ahead of the github repository,
+    we will communicate this in the pull request thread then.
+
+  - The mod config has an "include testing features" option. Enabling this causes
+    blocks under development to be registered as well.
+
+----
+### Version history
+
+Mod versions are tracked in the readme files for individual Minecraft versions, and
+of course in the commits of this repository. Simply take a look into the other branches.
+
+
+### Community references
+
+Mods covering similar features, or may fit well together with IE and the decorations or features of this mod:
+
+- [Immersive Engineering](https://github.com/BluSunrize/ImmersiveEngineering/): Without IE, my
+  little mod here does not make much sense ;). It works without IE ("standalone recipes" are automatically
+  selected), but the vanilla-ingredient based recipes are not as good compared to the available IE items.
+
+- [Engineer's doors](https://www.curseforge.com/minecraft/mc-mods/engineers-doors) has brilliant
+  doors, trapdoors, and fence doors, all made of the IE materials.
+
+- [Immersive Posts](https://www.curseforge.com/minecraft/mc-mods/immersiveposts) provides extensible wire posts.
+
+- [Dirty Bricks](https://www.curseforge.com/minecraft/texture-packs/dirty-bricks-vanilla-add-on) applies
+  position dependent variations to the vanilla bricks, similar to the clinkers and slag bricks in this
+  mod.
+
+- [Chisel](https://www.curseforge.com/minecraft/mc-mods/chisel) needless to say, Chisel has a variety
+  of factory blocks.
+
+- [Actually Additions](https://www.curseforge.com/minecraft/mc-mods/actually-additions) and [Cyclic](https://www.curseforge.com/minecraft/mc-mods/cyclic)
+  also have a block breakers and block placers.
+
+
+### Screenshots
+
+![Signs](documentation/engineers-decor-v113-signs.png)
+
+![Crafting Table GUI](documentation/engineers-decor-v113-metal-crafting-table.png)
+
+![E-Furnace GUI](documentation/engineers-decor-v113-efurnace.png)
