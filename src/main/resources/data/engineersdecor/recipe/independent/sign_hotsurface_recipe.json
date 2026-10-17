@@ -1,23 +1,20 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "engineersdecor:optional",
-          "result": "engineersdecor:sign_hotsurface",
-          "required": ["engineersdecor:sign_firehazard"]
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          { "item": "engineersdecor:sign_firehazard" }
-        ],
-        "result": {
-          "item": "engineersdecor:sign_hotsurface"
-        }
-      }
-    }
-  ]
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:sign_hotsurface",
+                                    "required":  [
+                                                     "engineersdecor:sign_firehazard"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "engineersdecor:sign_firehazard"
+                        }
+                    ],
+    "result":  {
+                   "id":  "engineersdecor:sign_hotsurface"
+               }
 }

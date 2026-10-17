@@ -16,7 +16,7 @@
     "D": { "item": "minecraft:dirt" }
   },
   "result": {
-    "item": "engineersdecor:dense_grit_sand_block",
+    "id": "engineersdecor:dense_grit_sand_block",
     "count": 4
   }
 }

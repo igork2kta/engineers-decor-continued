@@ -1,0 +1,29 @@
+{
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:sign_hotwire"
+                                }
+                            ],
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "NSN",
+                    "SPS",
+                    "NSN"
+                ],
+    "key":  {
+                "S":  {
+                          "item":  "minecraft:stick"
+                      },
+                "P":  {
+                          "item":  "minecraft:paper"
+                      },
+                "N":  {
+                          "item":  "minecraft:iron_nugget"
+                      }
+            },
+    "result":  {
+                   "id":  "engineersdecor:sign_hotwire",
+                   "count":  1
+               }
+}

@@ -1,29 +1,26 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "engineersdecor:optional",
-          "result": "engineersdecor:thick_steel_pole",
-          "required": ["engineersdecor:thin_steel_pole"]
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "pattern": [
-          "SS ",
-          "SS ",
-          "SS "
-        ],
-        "key": {
-          "S": { "item": "engineersdecor:thin_steel_pole" }
-        },
-        "result": {
-          "item": "engineersdecor:thick_steel_pole",
-          "count": 6
-        }
-      }
-    }
-  ]
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:thick_steel_pole",
+                                    "required":  [
+                                                     "engineersdecor:thin_steel_pole"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "SS ",
+                    "SS ",
+                    "SS "
+                ],
+    "key":  {
+                "S":  {
+                          "item":  "engineersdecor:thin_steel_pole"
+                      }
+            },
+    "result":  {
+                   "id":  "engineersdecor:thick_steel_pole",
+                   "count":  6
+               }
 }

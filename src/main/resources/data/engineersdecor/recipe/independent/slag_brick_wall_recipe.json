@@ -1,31 +1,26 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "engineersdecor:optional",
-          "result": "engineersdecor:slag_brick_wall",
-          "required": ["engineersdecor:slag_brick_block"]
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "pattern": [
-          "   ",
-          "CCC",
-          "CCC"
-        ],
-        "key": {
-          "C": {
-            "item": "engineersdecor:slag_brick_block"
-          }
-        },
-        "result": {
-          "item": "engineersdecor:slag_brick_wall",
-          "count": 6
-        }
-      }
-    }
-  ]
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:slag_brick_wall",
+                                    "required":  [
+                                                     "engineersdecor:slag_brick_block"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "   ",
+                    "CCC",
+                    "CCC"
+                ],
+    "key":  {
+                "C":  {
+                          "item":  "engineersdecor:slag_brick_block"
+                      }
+            },
+    "result":  {
+                   "id":  "engineersdecor:slag_brick_wall",
+                   "count":  6
+               }
 }

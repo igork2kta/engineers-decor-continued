@@ -1,24 +1,23 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "engineersdecor:optional",
-          "result": "engineersdecor:clinker_brick_stained_block",
-          "required": ["engineersdecor:clinker_brick_block"]
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          { "item": "engineersdecor:clinker_brick_block" },
-          { "item": "minecraft:dirt" }
-        ],
-        "result": {
-          "item": "engineersdecor:clinker_brick_stained_block"
-        }
-      }
-    }
-  ]
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:clinker_brick_stained_block",
+                                    "required":  [
+                                                     "engineersdecor:clinker_brick_block"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "engineersdecor:clinker_brick_block"
+                        },
+                        {
+                            "item":  "minecraft:dirt"
+                        }
+                    ],
+    "result":  {
+                   "id":  "engineersdecor:clinker_brick_stained_block"
+               }
 }

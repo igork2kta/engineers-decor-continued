@@ -1,23 +1,20 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "engineersdecor:optional",
-          "result": "engineersdecor:clinker_brick_vertically_slit",
-          "required": ["engineersdecor:clinker_brick_recessed"]
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          { "item": "engineersdecor:clinker_brick_recessed" }
-        ],
-        "result": {
-          "item": "engineersdecor:clinker_brick_vertically_slit"
-        }
-      }
-    }
-  ]
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:clinker_brick_vertically_slit",
+                                    "required":  [
+                                                     "engineersdecor:clinker_brick_recessed"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "engineersdecor:clinker_brick_recessed"
+                        }
+                    ],
+    "result":  {
+                   "id":  "engineersdecor:clinker_brick_vertically_slit"
+               }
 }

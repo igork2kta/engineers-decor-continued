@@ -1,0 +1,26 @@
+{
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:rebar_concrete"
+                                }
+                            ],
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "SCS",
+                    "CSC",
+                    "SCS"
+                ],
+    "key":  {
+                "C":  {
+                          "item":  "minecraft:gray_concrete_powder"
+                      },
+                "S":  {
+                          "item":  "engineersdecor:metal_bar"
+                      }
+            },
+    "result":  {
+                   "id":  "engineersdecor:rebar_concrete",
+                   "count":  4
+               }
+}

@@ -1,0 +1,28 @@
+{
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:straight_pipe_valve",
+                                    "required":  [
+                                                     "engineersdecor:thick_steel_pole",
+                                                     "engineersdecor:metal_bar"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shaped",
+    "pattern":  [
+                    "PIP"
+                ],
+    "key":  {
+                "P":  {
+                          "item":  "engineersdecor:thick_steel_pole"
+                      },
+                "I":  {
+                          "item":  "engineersdecor:metal_bar"
+                      }
+            },
+    "result":  {
+                   "id":  "engineersdecor:straight_pipe_valve",
+                   "count":  1
+               }
+}

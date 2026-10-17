@@ -1,0 +1,24 @@
+{
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:straight_pipe_valve",
+                                    "required":  [
+                                                     "engineersdecor:straight_pipe_valve"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "engineersdecor:straight_pipe_valve"
+                        },
+                        {
+                            "item":  "minecraft:repeater"
+                        }
+                    ],
+    "result":  {
+                   "id":  "engineersdecor:straight_pipe_valve_redstone",
+                   "count":  1
+               }
+}

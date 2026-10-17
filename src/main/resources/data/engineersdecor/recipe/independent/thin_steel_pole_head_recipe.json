@@ -1,25 +1,20 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "engineersdecor:optional",
-          "result": "engineersdecor:thin_steel_pole_head",
-          "required": ["engineersdecor:thin_steel_pole"]
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shapeless",
-        "ingredients": [
-          {
-            "item": "engineersdecor:thin_steel_pole"
-          }
-        ],
-        "result": {
-          "item": "engineersdecor:thin_steel_pole_head"
-        }
-      }
-    }
-  ]
+    "conditions":  [
+                                {
+                                    "type":  "engineersdecor:optional",
+                                    "result":  "engineersdecor:thin_steel_pole_head",
+                                    "required":  [
+                                                     "engineersdecor:thin_steel_pole"
+                                                 ]
+                                }
+                            ],
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "engineersdecor:thin_steel_pole"
+                        }
+                    ],
+    "result":  {
+                   "id":  "engineersdecor:thin_steel_pole_head"
+               }
 }
